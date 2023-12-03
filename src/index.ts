@@ -1,3 +1,4 @@
 import { Dot } from './dot';
+import { Utils } from './utils';
 
-export { Dot };
+export { Utils,Dot };
