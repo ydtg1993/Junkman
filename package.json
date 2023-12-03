@@ -1,0 +1,33 @@
+{
+  "name": "junkman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/junkman.js",
+  "module": "dist/junkman.esm.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierkadan/junkman.git"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "hikki",
+  "license": "ISC",
+  "homepage": "https://github.com/pierkadan/junkman.git",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^2.79.1",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "@rollup/plugin-typescript": "latest",
+    "tslib": "^2.6.2"
+  },
+  "files": [
+    "dist/*",
+    "src"
+  ]
+}
