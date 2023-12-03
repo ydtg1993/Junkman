@@ -22,7 +22,7 @@ export class Utils {
         xhr.timeout = timeout;
         if (header) {
             for (let h in header) {
-                xhr.setRequestHeader(h, header[h]);
+                if (header.hasOwnProperty(h)) xhr.setRequestHeader(h, header[h]);
             }
         }
         if (method === 'GET') {
