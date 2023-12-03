@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import less from 'rollup-plugin-less';
 
 export default {
     input: './src/index.ts',
@@ -9,5 +10,5 @@ export default {
         format: 'iife',
         minifyInternalExports: true
     },
-    plugins: [resolve(), typescript()]
+    plugins: [resolve(), typescript(),less()]
 };
