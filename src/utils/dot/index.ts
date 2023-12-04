@@ -28,14 +28,14 @@ export class Dot{
         height: '150px',
         direction: DotDirection.Down
     };
-    private useSearchMod!: boolean;
+    private useSearchMod: boolean = true;
     private triggerEvent!: { func: Function | null; enable: boolean };
-    private selectInputDOM!: HTMLElement | null;
-    private insertInputDOM!: HTMLElement | null;
-    private deleteInputDOM!: HTMLElement | null;
+    private selectInputDOM!: HTMLElement;
+    private insertInputDOM!: HTMLElement;
+    private deleteInputDOM!: HTMLElement;
     private SELECTED_DOM!: HTMLElement;
     private CONTENT_DOM!: HTMLElement;
-    private SELECT_COVER_DOM!: HTMLElement | null;
+    private SELECT_COVER_DOM!: HTMLElement;
     private id_line_hash!: { [id: string]: number };
 
     constructor(dom:HTMLElement,data:any) {
