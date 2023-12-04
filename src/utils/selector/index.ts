@@ -1,32 +1,32 @@
-export enum DotMode {
+enum SelectorMode {
     Insert,
     Delete
 }
 
-export enum DotMod {
+export enum SelectorMod {
     Default,
     Menu,
     Switch
 }
 
-export enum DotDirection {
+export enum SelectorDirection {
     Down,
     Up,
     Mid
 }
 
-export class Dot{
+export class Selector{
     private dom!: HTMLElement;
     private limit!:number;
     private selectedData!: string[];
     private selectData!: string[];
     private insertData!: string[];
     private deleteData!: string[];
-    private modSettings: { mode: DotMod; placeholder?: string; height?: string; direction?: DotDirection }={
-        mode:DotMod.Default,
+    private modSettings: { mode: SelectorMod; placeholder?: string; height?: string; direction?: SelectorDirection }={
+        mode:SelectorMod.Default,
         placeholder: '未选择',
         height: '150px',
-        direction: DotDirection.Down
+        direction: SelectorDirection.Down
     };
     private useSearchMod: boolean = true;
     private triggerEvent!: { func: Function | null; enable: boolean };
@@ -52,8 +52,8 @@ export class Dot{
         return this;
     }
 
-    modMenu(placeholder: string, height: string,direction: DotDirection) {
-        this.modSettings.mode = DotMod.Menu;
+    modMenu(placeholder: string, height: string,direction: SelectorDirection) {
+        this.modSettings.mode = SelectorMod.Menu;
         this.modSettings.placeholder = placeholder;
         this.modSettings.height = height;
         this.modSettings.direction = direction;

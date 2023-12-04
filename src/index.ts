@@ -3,8 +3,8 @@ import {contextmenu} from './aid/contextmenu';
 import {request} from './aid/request';
 
 import {Tip} from './utils/tip/index';
-import { Dot,DotDirection,DotMod,DotMode } from './utils/dot/index';
+import { Selector,SelectorDirection,SelectorMod } from './utils/selector/index';
 
 export { request,loader,contextmenu,
     Tip,
-    Dot,DotDirection,DotMod,DotMode};
+    Selector,SelectorDirection,SelectorMod};
