@@ -1,6 +1,6 @@
-import {loader} from './common/loader';
-import {contextmenu} from './common/contextmenu';
-import {request} from './common/request';
+import {loader} from './aid/loader';
+import {contextmenu} from './aid/contextmenu';
+import {request} from './aid/request';
 import { Dot } from './utils/dot';
 
 export { request,loader,contextmenu };

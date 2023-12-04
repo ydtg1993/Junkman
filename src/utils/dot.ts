@@ -1,4 +1,4 @@
-import { Icon } from './../common/icon';
+import { Icon } from '../aid/icon';
 
 export class Dot{
     constructor() {
