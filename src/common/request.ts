@@ -1,13 +1,13 @@
-export class Utils {
-    static request({
-                       url = '',
-                       method = "GET",
-                       header = {},
-                       data = {},
-                       callback = null,
-                       error_callback = null,
-                       timeout = 30000
-                   }: {
+export class Request {
+    constructor({
+                    url = '',
+                    method = "GET",
+                    header = {},
+                    data = {},
+                    callback = null,
+                    error_callback = null,
+                    timeout = 30000
+                }: {
         url: string;
         method?: string;
         header?: Record<string, any>;
@@ -15,9 +15,9 @@ export class Utils {
         callback?: ((result: any) => void) | null;
         error_callback?: ((error: any) => void) | null;
         timeout?: number;
-    }): void {
+    }) {
         let xhr = new XMLHttpRequest();
-        if (method === 'GET') url = this.parseParams(url, data);
+        if (method === 'GET') url = Request.parseParams(url, data);
         xhr.open(method, url, true);
         xhr.timeout = timeout;
         if (header) {

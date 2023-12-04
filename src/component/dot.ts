@@ -1,5 +1,7 @@
+import { Icon } from './../common/icon';
+
 export class Dot{
     constructor() {
-        alert(1);
+
     }
 }

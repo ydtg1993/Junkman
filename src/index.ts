@@ -1,4 +1,5 @@
-import { Dot } from './dot';
-import { Utils } from './utils';
+import { Utils } from './common/utils';
+import { Request } from './common/request';
+import { Dot } from './component/dot';
 
-export { Utils,Dot };
+export { Request,Utils,Dot };
