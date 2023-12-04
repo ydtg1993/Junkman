@@ -50,7 +50,7 @@ export function imgdelay(doms: HTMLElement[], time: number = 200, options = {zoo
                     img.remove();
                 });
             };
-        }, i * options.time);
+        }, i * time);
         i++;
     }
 }
