@@ -1,5 +1,4 @@
-export function imgdelay(doms: HTMLElement[], options = {time: 200, zoom: false, width: 300, height: 0}) {
-    options = Object.assign({time: 200, zoom: false, width: 300, height: 0}, options);
+export function imgdelay(doms: HTMLElement[], time: number = 200, options = {zoom: false, width: 300, height: 0}) {
     let i = 0;
     for (let dom of doms) {
         let src: string = dom.getAttribute('data-src')!;
