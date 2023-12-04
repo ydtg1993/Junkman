@@ -28,7 +28,7 @@ export function request({
             }
             return uri;
         })(url, data);
-    };
+    }
     xhr.open(method, url, true);
     xhr.timeout = timeout;
     if (header) {
