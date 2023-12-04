@@ -1,4 +1,4 @@
-export class Utils {
+export class Aid {
     static loading(dom: HTMLElement, remove = false) {
         if (remove) {
             dom.innerHTML = '';

@@ -1,5 +1,5 @@
-import { Utils } from './common/utils';
+import { Aid } from './common/aid';
 import { Request } from './common/request';
-import { Dot } from './component/dot';
+import { Dot } from './utils/dot';
 
-export { Request,Utils,Dot };
+export { Request,Aid,Dot };
