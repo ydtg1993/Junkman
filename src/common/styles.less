@@ -98,3 +98,27 @@
     transform: rotate(360deg);
   }
 }
+
+.jk-contextmenu{
+  list-style:none;
+  margin:0;padding:0;
+  position: absolute;
+  color: #333;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  display:block;
+
+  & *{transition:color .4s, background .4s;}
+  & > li{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    background-color: #fff;
+    border-bottom:1px solid #ecf0f1;
+  }
+  & > li:hover{
+    background-color: #ebebeb;
+    cursor: pointer;
+  }
+}

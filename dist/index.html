@@ -5,13 +5,28 @@
     <title>Title</title>
     <script src="./junkman.js"></script>
     <link rel="stylesheet" href="./junkman.css" type="text/css"/>
+    <style>
+        .ka {
+            width: 60px;
+            height: 30px;
+            background: red;
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div>
-<div id="p"></div>
+    <div id="p">
+        <div class="ka">1</div>
+        <div class="ka">2</div>
+        <div class="ka">3</div>
+    </div>
 </div>
 <script>
-    junkman.Utils.loading(document.getElementById('p'));
+    junkman.Aid.contextmenu(document.querySelectorAll(".ka"),[
+        {title: 't1', func: () => alert(1)},
+        {title: 't2', func: () => alert(2)}
+    ]);
 </script>
 </body>
 </html>
