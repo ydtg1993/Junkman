@@ -52,7 +52,7 @@ export class Menu extends Selector implements SelectorInterface{
                     this._tagCal(id, SELECTOR_MODE.Delete);
                     option.removeAttribute("active");
                     let svg = option.querySelector("svg");
-                    if(svg instanceof HTMLElement) option.removeChild(svg);
+                    if(svg) option.removeChild(svg);
                     this._menuSelect(select);
                     if (this.selectData.length === 0) this.SELECTED_DOM.textContent = this.placeholder;
                     return;
