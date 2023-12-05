@@ -1,0 +1,39 @@
+.jk-selector-menu {
+  position: relative;
+
+  .jk-selector-menu-select {
+    display: flex !important;
+    border-radius: 3px;
+    color: #ffffff;
+    border: 1px solid #1e1e1e;
+    background: linear-gradient(177deg, #303030 0, #939393 49%, #000 59%, #3e3e3e 100%);
+    box-shadow: inset 0 3px 9px #232323, inset 0 3px 12px #323232, inset 0 15px 9px #4a4a4a, inset 0 3px 3px 0 #8b8b8b, 0 1px 3px rgb(16 16 16 / 66%);
+  }
+
+  .jk-selector-menu-list {
+    position: absolute;
+    z-index: 10000;
+    display: none;
+    height: unset;
+    flex-wrap: wrap;
+    padding: 0;
+    border-radius: 3px;
+    background: #f7f7f7;
+    border: 1px solid #ccc;
+    width: 100%;
+
+    & > div:last-child {
+      width: 100%;
+      padding: 0 0 2px 0;
+
+      & > div {
+        display: flex;
+        margin: 0 2px 0 2px;
+        align-items: center;
+        height: 28px;
+        cursor: pointer;
+        border-bottom: 1px solid #d9d9d9;
+      }
+    }
+  }
+}

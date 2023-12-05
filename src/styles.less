@@ -1,8 +1,30 @@
 @import "aid/styles";
 @import "utils/tip/styles";
+@import "utils/selector/styles";
 
 .jk-text-trim {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.jk-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.jk-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.jk-scroll::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #e1e1e1;
+}
+
+.jk-scroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgb(255 255 255 / 20%);
 }

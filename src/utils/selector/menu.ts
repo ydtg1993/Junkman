@@ -7,19 +7,19 @@ export class Menu extends Selector implements SelectorInterface{
     private maxHeight:string = '150px';
     private direction:SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
 
-    constructor(dom: HTMLElement, select: Map<string, string>) {
+    constructor(dom: HTMLElement, select: {[key: string]: string }) {
         super(dom, select);
     }
 
-    private _menuSelect (select: Map<string, any>) {
+    private _menuSelect (select: {[key: string]: string }) {
         if (this.limitNumber === 1) {
             let d:string = this.selectData[0];
-            this.SELECTED_DOM.innerHTML = `<p class="jk-text-trim">${select.get(d)}</p>`;
+            this.SELECTED_DOM.innerHTML = `<p class="jk-text-trim">${select[d]}</p>`;
             return;
         }
         let html = '';
         for (let id of this.selectData) {
-            html += `<span class="jk-text-trim" title="${select.get(id)}">${select.get(id)}</span>`;
+            html += `<span class="jk-text-trim" title="${select[id]}">${select[id]}</span>`;
         }
         this.SELECTED_DOM.innerHTML = html;
     };
@@ -34,19 +34,18 @@ export class Menu extends Selector implements SelectorInterface{
         let menu_list = document.createElement('div');
         menu_list.className = 'jk-selector-menu-list';
         let list = document.createElement('div');
-        list.className = 'jk-scroll';
+        list.className = 'jk-selector-menu-options jk-scroll';
         list.style.maxHeight = this.maxHeight;
         let check = Icon.check;
         let line = 0;
         for (let id in select) {
             if (!select.hasOwnProperty(id)) continue;
-            this.id_line_hash.set(id,line);
+            this.id_line_hash[id] = line;
             line++;
             let option = document.createElement('div');
-            option.className = 'option';
             option.setAttribute('data-id', id);
             option.insertAdjacentHTML('afterbegin', `
-<div class="jk-text-trim" data-v="${id}">${select.get(id)}</div><div></div>`);
+<div class="jk-text-trim" data-v="${id}">${select[id]}</div>`);
             option.addEventListener('click', () => {
                 if (this.selectData.indexOf(id) !== -1) {
                     /*cancel*/
@@ -104,8 +103,8 @@ export class Menu extends Selector implements SelectorInterface{
 
         this.DOM.append(menu);
         // @ts-ignore
-        this.SELECTED_DOM = this.DOM.querySelector(`.jk-selector-menu-select`).firstElementChild;
+        this.SELECTED_DOM = this.DOM.querySelector(`.jk-selector-menu-select>div:first-child`);
         // @ts-ignore
-        this.CONTENT_DOM = this.DOM.querySelector(`.list`);
+        this.CONTENT_DOM = this.DOM.querySelector(`jk-selector-menu-select>div`);
     }
 }
