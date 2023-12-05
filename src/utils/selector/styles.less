@@ -2,7 +2,7 @@
   position: relative;
 
   .jk-selector-menu-select {
-    display: flex !important;
+    display: flex;
     border-radius: 3px;
     color: #ffffff;
     border: 1px solid #1e1e1e;
@@ -19,7 +19,7 @@
       color: #9d9d9d;
 
       & > span{
-        color: whitesmoke;
+        color: white;
       }
     }
 
@@ -65,6 +65,14 @@
         height: 28px;
         cursor: pointer;
         border-bottom: 1px solid #d9d9d9;
+
+        & > div:first-child{
+          width: 100%;
+        }
+      }
+
+      & > div:hover,& > div[active="1"]{
+        background: rgb(0 0 0 / 8%);
       }
     }
   }

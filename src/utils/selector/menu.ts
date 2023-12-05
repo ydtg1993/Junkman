@@ -50,7 +50,7 @@ export class Menu extends Selector implements SelectorInterface{
                 if (this.selectData.indexOf(id) !== -1) {
                     /*cancel*/
                     this._tagCal(id, SELECTOR_MODE.Delete);
-                    option.classList.remove('jk-selector-menu-option-active');
+                    option.removeAttribute("active");
                     if (option.lastChild instanceof HTMLElement) option.lastChild.innerHTML = '';
                     this._menuSelect(select);
                     if (this.selectData.length === 0) this.SELECTED_DOM.textContent = this.placeholder;
@@ -59,12 +59,12 @@ export class Menu extends Selector implements SelectorInterface{
                 if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber) {
                     this.triggerEvent.enable = false;
                     // @ts-ignore
-                    list.childNodes[this.id_line_hash[this.selectData[0].toString()]].click();
+                    list.childNodes[this.id_line_hash[this.selectData[0]]].click();
                     this.triggerEvent.enable = true;
                 }
-                option.classList.add('jk-selector-menu-option-active');
+                option.setAttribute('active','1');
                 this._tagCal(id, SELECTOR_MODE.Insert);
-                (option.lastChild instanceof HTMLElement) && option.lastChild.insertAdjacentHTML('afterbegin', check);
+                option.insertAdjacentHTML('beforeend', check);
                 this._menuSelect(select);
             }, false);
             list.append(option);
