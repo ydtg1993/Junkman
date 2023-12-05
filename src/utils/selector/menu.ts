@@ -22,7 +22,7 @@ export class Menu extends Selector implements SelectorInterface {
     private _menuSelect(select: { [key: string]: string }) {
         if (this.limitNumber === 1) {
             let d: string = this.selectData[0];
-            this.SELECTED_DOM.innerHTML = `<p class="jk-text-trim">${select[d]}</p>`;
+            this.SELECTED_DOM.innerHTML = `<span class="jk-text-trim">${select[d]}</span>`;
             return;
         }
         let html = '';
