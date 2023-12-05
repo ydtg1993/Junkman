@@ -79,6 +79,7 @@ export class Selector {
 
     protected _tagCancel(element: HTMLElement) {
         let clone = element.cloneNode(true);
+        // @ts-ignore
         clone.addEventListener('click', () => this._tagSelect(clone), false);
         this.CONTENT_DOM.appendChild(clone);
         element.remove();
