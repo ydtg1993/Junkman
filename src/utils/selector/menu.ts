@@ -2,18 +2,26 @@ import {Selector} from "./index";
 import {SELECTOR_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
 import {Icon} from "../../aid/icon";
 
-export class Menu extends Selector implements SelectorInterface{
-    private placeholder:string = '未选择';
-    private maxHeight:string = '150px';
-    private direction:SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
+export class Menu extends Selector implements SelectorInterface {
+    private placeholder: string = '未选择';
+    private maxHeight: string = '150px';
+    private direction: SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
 
-    constructor(dom: HTMLElement, select: {[key: string]: string }) {
+    constructor(dom: HTMLElement, select: { [key: string]: string }) {
         super(dom, select);
     }
 
-    private _menuSelect (select: {[key: string]: string }) {
+    settings({placeholder, height, direction}:
+                 { placeholder?: string, height?: string, direction?: SELECTOR_DIRECTION }):this {
+        if(placeholder)this.placeholder = placeholder;
+        if(height)this.maxHeight = height;
+        if(direction)this.direction = direction;
+        return this;
+    }
+
+    private _menuSelect(select: { [key: string]: string }) {
         if (this.limitNumber === 1) {
-            let d:string = this.selectData[0];
+            let d: string = this.selectData[0];
             this.SELECTED_DOM.innerHTML = `<p class="jk-text-trim">${select[d]}</p>`;
             return;
         }
@@ -24,7 +32,7 @@ export class Menu extends Selector implements SelectorInterface{
         this.SELECTED_DOM.innerHTML = html;
     };
 
-    make(){
+    make() {
         let select = this.select;
         let menu = document.createElement('div');
         menu.className = 'jk jk-selector-menu';
@@ -52,7 +60,7 @@ export class Menu extends Selector implements SelectorInterface{
                     this._tagCal(id, SELECTOR_MODE.Delete);
                     option.removeAttribute("active");
                     let svg = option.querySelector("svg");
-                    if(svg) option.removeChild(svg);
+                    if (svg) option.removeChild(svg);
                     this._menuSelect(select);
                     if (this.selectData.length === 0) this.SELECTED_DOM.textContent = this.placeholder;
                     return;
@@ -63,7 +71,7 @@ export class Menu extends Selector implements SelectorInterface{
                     list.childNodes[this.id_line_hash[this.selectData[0]]].click();
                     this.triggerEvent.enable = true;
                 }
-                option.setAttribute('active','1');
+                option.setAttribute('active', '1');
                 this._tagCal(id, SELECTOR_MODE.Insert);
                 option.insertAdjacentHTML('beforeend', check);
                 this._menuSelect(select);
