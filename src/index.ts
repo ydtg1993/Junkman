@@ -3,8 +3,14 @@ import {contextmenu} from './aid/contextmenu';
 import {request} from './aid/request';
 
 import {Tip} from './utils/tip/index';
-import { Selector,SelectorDirection,SelectorMod } from './utils/selector/index';
+import {Menu} from './utils/selector/menu';
 
-export { request,loader,contextmenu,
+const selector = new class {
+    static Menu = Menu;
+};
+
+export {
+    request, loader, contextmenu,
     Tip,
-    Selector,SelectorDirection,SelectorMod};
+    selector
+};
