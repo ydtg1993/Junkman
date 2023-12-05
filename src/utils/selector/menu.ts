@@ -75,6 +75,7 @@ export class Menu extends Selector implements SelectorInterface{
             let search_box = document.createElement('div');
             search_box.className = 'jk-selector-search';
             let input = document.createElement('input');
+            input.className = "jk-input";
             input.setAttribute('placeholder', '搜索');
             search_box.append(input);
             menu_list.append(search_box);
