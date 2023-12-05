@@ -51,7 +51,8 @@ export class Menu extends Selector implements SelectorInterface{
                     /*cancel*/
                     this._tagCal(id, SELECTOR_MODE.Delete);
                     option.removeAttribute("active");
-                    if (option.lastChild instanceof HTMLElement) option.lastChild.innerHTML = '';
+                    let svg = option.querySelector("svg");
+                    if(svg instanceof HTMLElement) option.removeChild(svg);
                     this._menuSelect(select);
                     if (this.selectData.length === 0) this.SELECTED_DOM.textContent = this.placeholder;
                     return;
@@ -97,9 +98,6 @@ export class Menu extends Selector implements SelectorInterface{
                 // @ts-ignore
                 this.DOM.querySelector(`.jk-selector-search>input`).value = '';
             }
-            for (let node of this.CONTENT_DOM.childNodes) {
-                if(node instanceof HTMLElement)node.style.display = 'flex';
-            }
         });
 
         this.DOM.append(menu);
@@ -107,5 +105,6 @@ export class Menu extends Selector implements SelectorInterface{
         this.SELECTED_DOM = this.DOM.querySelector(`.jk-selector-menu-select>div:first-child`);
         // @ts-ignore
         this.CONTENT_DOM = this.DOM.querySelector(`jk-selector-menu-select>div`);
+        if (this.limitNumber !== 1) this.SELECTED_DOM.classList.add("multi");
     }
 }
