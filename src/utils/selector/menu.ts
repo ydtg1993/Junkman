@@ -27,10 +27,10 @@ export class Menu extends Selector implements SelectorInterface{
     make(){
         let select = this.select;
         let menu = document.createElement('div');
-        menu.className = 'jk-selector-menu';
+        menu.className = 'jk jk-selector-menu';
         let menu_select = document.createElement('div');
         menu_select.className = 'jk-input jk-selector-menu-select';
-        menu_select.insertAdjacentHTML('afterbegin', `<div class="dlp dlp-text">${this.placeholder}</div><div>▼</div>`);
+        menu_select.insertAdjacentHTML('afterbegin', `<div class="jk-text-trim">${this.placeholder}</div><div>▼</div>`);
         let menu_list = document.createElement('div');
         menu_list.className = 'jk-selector-menu-list';
         let list = document.createElement('div');
