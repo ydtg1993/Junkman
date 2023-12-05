@@ -1,22 +1,22 @@
 import {SELECTOR_MODE} from "./init";
 
 export class Selector {
-    private DOM!: HTMLElement;
-    private readonly select: Record<string, any>[];
-    private limitNumber!: number;
-    private selectedData: string[] = [];
-    private selectData: string[] = [];
-    private insertData: string[] = [];
-    private deleteData: string[] = [];
-    private useSearchMod: boolean = true;
-    private triggerEvent: { func: Function | null; enable: boolean } = {func: null, enable: false};
-    private SELECT_INPUT_DOM!: HTMLElement | null;
-    private INSERT_INPUT_DOM!: HTMLElement | null;
-    private DELETE_INPUT_DOM!: HTMLElement | null;
-    private SELECTED_DOM!: HTMLElement;
-    private CONTENT_DOM!: HTMLElement;
-    private SELECT_COVER_DOM!: HTMLElement;
-    private id_line_hash!: { [id: string]: number };
+    protected DOM!: HTMLElement;
+    protected readonly select: Record<string, any>[];
+    protected limitNumber!: number;
+    protected selectedData: string[] = [];
+    protected selectData: string[] = [];
+    protected insertData: string[] = [];
+    protected deleteData: string[] = [];
+    protected useSearchMod: boolean = true;
+    protected triggerEvent: { func: Function | null; enable: boolean } = {func: null, enable: false};
+    protected SELECT_INPUT_DOM!: HTMLElement | null;
+    protected INSERT_INPUT_DOM!: HTMLElement | null;
+    protected DELETE_INPUT_DOM!: HTMLElement | null;
+    protected SELECTED_DOM!: HTMLElement;
+    protected CONTENT_DOM!: HTMLElement;
+    protected SELECT_COVER_DOM!: HTMLElement;
+    protected id_line_hash!: { [id: string]: number };
 
     constructor(dom: HTMLElement, select: Record<string, any>[]) {
         this.DOM = dom;
@@ -25,7 +25,7 @@ export class Selector {
 
     selected(selected: string[]): this {
         if (!Array.isArray(selected)) {
-            console.error('Dot param selected must be array [key1,key2...]!');
+            console.error('selected params must be array[string] !');
             return this;
         }
         selected = selected.map(function (elem) {
@@ -61,21 +61,23 @@ export class Selector {
         return this;
     }
 
-    private _tagSelect(element: Node) {
+    protected _tagSelect(element: HTMLElement) {
         if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber && this.SELECTED_DOM.firstChild instanceof HTMLElement) {
             this.triggerEvent.enable = false;
             this.SELECTED_DOM.firstChild.click();
             this.triggerEvent.enable = true;
         }
         let clone = element.cloneNode(true);
+        // @ts-ignore
         clone.addEventListener('click', () => this._tagCancel(clone), false);
         this.SELECTED_DOM.appendChild(clone);
         element.remove();
-        this._tagCal(element.getAttribute('data-id'), SELECTOR_MODE.Insert);
+        let id = element.getAttribute('data-id');
+        if (id) this._tagCal(id, SELECTOR_MODE.Insert);
         this.SELECTED_DOM.scrollTop = this.SELECTED_DOM.scrollHeight;
     }
 
-    private _tagCancel(element: HTMLElement) {
+    protected _tagCancel(element: HTMLElement) {
         let clone = element.cloneNode(true);
         clone.addEventListener('click', () => this._tagSelect(clone), false);
         this.CONTENT_DOM.appendChild(clone);
@@ -84,7 +86,7 @@ export class Selector {
         if (id) this._tagCal(id, SELECTOR_MODE.Delete);
     };
 
-    private _tagCal(id :string, operate :SELECTOR_MODE) {
+    protected _tagCal(id :string, operate :SELECTOR_MODE) {
         let index = this.selectData.indexOf(id);
         if (operate === SELECTOR_MODE.Insert) {
             if (index === -1) {
