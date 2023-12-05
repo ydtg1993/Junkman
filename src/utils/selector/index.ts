@@ -136,7 +136,7 @@ export class Selector {
                 }
             }
         }
-        if (typeof this.triggerEvent.func == 'function' && this.triggerEvent.enable === true) {
+        if (typeof this.triggerEvent.func == 'function' && this.triggerEvent.enable) {
             this.triggerEvent.func(this.selectData, this.insertData, this.deleteData);
         }
     }
