@@ -5,8 +5,8 @@ import {request} from './aid/request';
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
 
-const selector = new class {
-    static Menu = Menu;
+const selector = {
+    Menu: Menu
 };
 
 export {

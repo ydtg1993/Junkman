@@ -7,7 +7,7 @@ export class Menu extends Selector implements SelectorInterface{
     private maxHeight:string = '150px';
     private direction:SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
 
-    constructor(dom: HTMLElement, select: Map<string, any>) {
+    constructor(dom: HTMLElement, select: Map<string, string>) {
         super(dom, select);
     }
 
@@ -40,7 +40,7 @@ export class Menu extends Selector implements SelectorInterface{
         let line = 0;
         for (let id in select) {
             if (!select.hasOwnProperty(id)) continue;
-            this.id_line_hash[id] = line;
+            this.id_line_hash.set(id,line);
             line++;
             let option = document.createElement('div');
             option.className = 'option';
@@ -104,7 +104,7 @@ export class Menu extends Selector implements SelectorInterface{
 
         this.DOM.append(menu);
         // @ts-ignore
-        this.SELECTED_DOM = this.DOM.querySelector(`.dlp-dot-menu-select`).firstElementChild;
+        this.SELECTED_DOM = this.DOM.querySelector(`.jk-selector-menu-select`).firstElementChild;
         // @ts-ignore
         this.CONTENT_DOM = this.DOM.querySelector(`.list`);
     }

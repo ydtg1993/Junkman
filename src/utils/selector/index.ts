@@ -2,7 +2,7 @@ import {SELECTOR_MODE} from "./init";
 
 export class Selector {
     protected DOM!: HTMLElement;
-    protected readonly select: Map<string, any>;
+    protected select: Map<string, string> = new Map();
     protected limitNumber!: number;
     protected selectedData: string[] = [];
     protected selectData: string[] = [];
@@ -16,9 +16,9 @@ export class Selector {
     protected SELECTED_DOM!: HTMLElement;
     protected CONTENT_DOM!: HTMLElement;
     protected SELECT_COVER_DOM!: HTMLElement;
-    protected id_line_hash!: { [id: string]: number };
+    protected id_line_hash: Map<string, number> = new Map();
 
-    constructor(dom: HTMLElement, select: Map<string, any>) {
+    constructor(dom: HTMLElement, select: Map<string, string>) {
         this.DOM = dom;
         this.select = select;
     }
