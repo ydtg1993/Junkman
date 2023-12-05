@@ -46,7 +46,7 @@ export class Selector {
     }
 
     searchOff(): this {
-        this.useSearchMod = true;
+        this.useSearchMod = false;
         return this;
     }
 
