@@ -4,13 +4,28 @@ import {request} from './aid/request';
 
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
+import {SELECTOR_MENU_DIRECTION} from './utils/selector/init'
 
 const selector = {
+    /**
+     * @class Menu
+     * @param dom   type:HTMLDocument   des:bind parent node
+     * @param select    type:{key:value,...}    des:select options data
+     *
+     * @function limit(int)  des:preset selected options limit number
+     * @function settings(params)   des:preset menu select placeholder,options max height, options popup direction
+     *      @params {
+     *          placeholder:string,
+     *          height:string,
+     *          direction:junkman.SELECTOR_MENU_DIRECTION
+     *     }
+     * @function make   des:build document
+     */
     Menu: Menu
 };
 
 export {
     request, loader, contextmenu,
     Tip,
-    selector
+    selector, SELECTOR_MENU_DIRECTION
 };

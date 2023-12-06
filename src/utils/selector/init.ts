@@ -3,13 +3,7 @@ export enum SELECTOR_MODE {
     Delete
 }
 
-export enum SELECTOR_MOD {
-    Default,
-    Menu,
-    Switch
-}
-
-export enum SELECTOR_DIRECTION {
+export enum SELECTOR_MENU_DIRECTION {
     Down,
     Up,
     Mid

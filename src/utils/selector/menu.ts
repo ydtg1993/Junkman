@@ -1,18 +1,18 @@
 import {Selector} from "./index";
-import {SELECTOR_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
+import {SELECTOR_MENU_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
 import {Icon} from "../../aid/icon";
 
 export class Menu extends Selector implements SelectorInterface {
-    private placeholder: string = '未选择';
+    private placeholder: string = '-select-';
     private maxHeight: string = '150px';
-    private direction: SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
+    private direction: SELECTOR_MENU_DIRECTION = SELECTOR_MENU_DIRECTION.Down;
 
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         super(dom, select);
     }
 
     settings({placeholder, height, direction}:
-                 { placeholder?: string, height?: string, direction?: SELECTOR_DIRECTION }):this {
+                 { placeholder?: string, height?: string, direction?: SELECTOR_MENU_DIRECTION }):this {
         if(placeholder)this.placeholder = placeholder;
         if(height)this.maxHeight = height;
         if(direction)this.direction = direction;
@@ -93,10 +93,10 @@ export class Menu extends Selector implements SelectorInterface {
         menu.append(menu_list);
         menu.addEventListener('click', () => {
             menu_list.style.display = 'flex';
-            if (this.direction === SELECTOR_DIRECTION.Up) {
+            if (this.direction === SELECTOR_MENU_DIRECTION.Up) {
                 menu_list.style.top = `-${menu_list.clientHeight + 2.5}px`;
                 menu_list.style.flexDirection = 'column-reverse';
-            } else if (this.direction === SELECTOR_DIRECTION.Mid) {
+            } else if (this.direction === SELECTOR_MENU_DIRECTION.Mid) {
                 menu_list.style.top = `-${menu_list.clientHeight / 2}px`;
             }
         });
