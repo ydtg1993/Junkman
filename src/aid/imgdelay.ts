@@ -1,4 +1,4 @@
-export function imgdelay(doms: HTMLElement[], time: number = 200, options = {zoom: false, width: 300, height: 0}) {
+export function imgDelay(doms: HTMLElement[], time: number = 200, options = {zoom: false, width: 300, height: 0}) {
     let i = 0;
     for (let dom of doms) {
         let src: string = dom.getAttribute('data-src')!;

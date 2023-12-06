@@ -13,8 +13,6 @@ export class Selector {
     protected SELECT_INPUT_DOM!: HTMLElement | null;
     protected INSERT_INPUT_DOM!: HTMLElement | null;
     protected DELETE_INPUT_DOM!: HTMLElement | null;
-    protected SELECTED_DOM!: HTMLElement;
-    protected CONTENT_DOM!: HTMLElement;
     protected SELECT_COVER_DOM!: HTMLElement;
     protected id_line_hash: { [id: string]: number } = {};
 
@@ -61,31 +59,35 @@ export class Selector {
         return this;
     }
 
-    protected _tagSelect(element: HTMLElement) {
-        if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber && this.SELECTED_DOM.firstChild instanceof HTMLElement) {
+/*    protected _tagSelect(element: HTMLElement) {
+        let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
+        if(!(selectedDom instanceof HTMLElement))return;
+        if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber && selectedDom.firstChild instanceof HTMLElement) {
             this.triggerEvent.enable = false;
-            this.SELECTED_DOM.firstChild.click();
+            selectedDom.firstChild.click();
             this.triggerEvent.enable = true;
         }
         let clone = element.cloneNode(true);
         // @ts-ignore
         clone.addEventListener('click', () => this._tagCancel(clone), false);
-        this.SELECTED_DOM.appendChild(clone);
+        selectedDom.appendChild(clone);
         element.remove();
         let id = element.getAttribute('data-id');
         if (id) this._tagCal(id, SELECTOR_MODE.Insert);
-        this.SELECTED_DOM.scrollTop = this.SELECTED_DOM.scrollHeight;
+        selectedDom.scrollTop = selectedDom.scrollHeight;
     }
 
     protected _tagCancel(element: HTMLElement) {
+        let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
+        if(!(selectedDom instanceof HTMLElement))return;
         let clone = element.cloneNode(true);
         // @ts-ignore
         clone.addEventListener('click', () => this._tagSelect(clone), false);
-        this.CONTENT_DOM.appendChild(clone);
+        selectedDom.appendChild(clone);
         element.remove();
         let id = element.getAttribute('data-id');
         if (id) this._tagCal(id, SELECTOR_MODE.Delete);
-    };
+    };*/
 
     protected _tagCal(id :string, operate :SELECTOR_MODE) {
         let index = this.selectData.indexOf(id);
