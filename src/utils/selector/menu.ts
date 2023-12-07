@@ -20,7 +20,7 @@ export class Menu extends Selector implements SelectorInterface {
         return this;
     }
 
-    private _menuSelect(selectedDom:HTMLElement,select: { [key: string]: string }) {
+    private _menuSelect(selectedDom: HTMLElement, select: { [key: string]: string }) {
         if (this.limitNumber === 1) {
             let d: string = this.selectData[0];
             selectedDom.innerHTML = `<span class="jk-text-trim">${select[d]}</span>`;
@@ -42,13 +42,13 @@ export class Menu extends Selector implements SelectorInterface {
             this.id_line_hash[id] = line;
             line++;
             tree.push({
-                attributes: {'data-id': id},
-                nodes: `<div class="jk-text-trim" data-v="${id}">${select[id]}</div>`,
+                attributes: {'data-id': id, 'data-v': select[id]},
+                nodes: `<div class="jk-text-trim">${select[id]}</div>`,
                 events: {
-                    click: (e: Event,dom:HTMLElement) => {
+                    click: (e: Event, dom: HTMLElement) => {
                         let option = dom;
                         let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
-                        if(!(selectedDom instanceof HTMLElement))return;
+                        if (!(selectedDom instanceof HTMLElement)) return;
                         if (this.selectData.indexOf(id) !== -1) {
                             /*cancel*/
                             this._tagCal(id, SELECTOR_MODE.Delete);
@@ -57,7 +57,7 @@ export class Menu extends Selector implements SelectorInterface {
                             if (svg) {
                                 option.removeChild(svg);
                             }
-                            this._menuSelect(selectedDom,select);
+                            this._menuSelect(selectedDom, select);
                             if (this.selectData.length === 0) selectedDom.textContent = this.placeholder;
                             return;
                         }
@@ -65,18 +65,49 @@ export class Menu extends Selector implements SelectorInterface {
                             this.triggerEvent.enable = false;
                             let index = this.id_line_hash[this.selectData[0]] + 1;
                             let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
-                            if(popOpt instanceof HTMLElement)popOpt.click();
+                            if (popOpt instanceof HTMLElement) popOpt.click();
                             this.triggerEvent.enable = true;
                         }
                         option.setAttribute('active', '1');
                         this._tagCal(id, SELECTOR_MODE.Insert);
                         option.insertAdjacentHTML('beforeend', Icon.check);
-                        this._menuSelect(selectedDom,select);
+                        this._menuSelect(selectedDom, select);
                     }
                 }
             });
         }
         return tree;
+    }
+
+    private _buildSearchInput(): {} {
+        return {
+            tag: 'input',
+            className: 'jk-input',
+            attributes: {placeholder: 'Search'},
+            events: {
+                input: (e: Event, dom: HTMLElement) => {
+                    // @ts-ignore
+                    let keywords = dom.value;
+                    let options: NodeListOf<HTMLElement> = this.DOM.querySelectorAll('.jk-selector-menu-options>div');
+                    if (!keywords) {
+                        options.forEach((option) => {
+                            option.style.display = 'flex';
+                        });
+                        return;
+                    }
+                    setTimeout(() => {
+                        options.forEach((option) => {
+                            let text: string = option.getAttribute('data-v') as string;
+                            if (keywords.indexOf(text) !== -1 || text.indexOf(keywords) !== -1) {
+                                option.style.display = 'flex';
+                                return;
+                            }
+                            option.style.display = 'none';
+                        });
+                    }, 500);
+                }
+            }
+        };
     }
 
     make() {
@@ -94,27 +125,32 @@ export class Menu extends Selector implements SelectorInterface {
                         listDom.style.top = `-${listDom.clientHeight / 2}px`;
                     }
                 },
-                mouseleave: () => {
-                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
-                    if (!(listDom instanceof HTMLElement)) return;
-                    listDom.style.display = 'none';
-                    if (this.useSearchMod) {
-                        // @ts-ignore
-                        this.DOM.querySelector(`.jk-selector-search>input`).value = '';
-                    }
-                }
+                /*                mouseleave: () => {
+                                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+                                    if (!(listDom instanceof HTMLElement)) return;
+                                    listDom.style.display = 'none';
+                                    if (this.useSearchMod) {
+                                        // @ts-ignore
+                                        this.DOM.querySelector(`.jk-selector-search>input`).value = '';
+                                    }
+                                }*/
             },
             nodes: [
                 {
                     className: 'jk-input jk-selector-menu-select',
-                    nodes: `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber!=1?' multi':''}">${this.placeholder}</div><div>▼</div>`
+                    nodes: `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}">${this.placeholder}</div><div>▼</div>`
                 },
                 {
                     className: 'jk-selector-menu-list',
-                    nodes: [
-                        {className: 'jk-selector-search', nodes: '<input class="jk-input" placeholder="Search">'},
-                        {className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}
-                    ]
+                    nodes: (() => {
+                        if (this.useSearchMod) {
+                            return [
+                                {className: 'jk-selector-search', nodes: [this._buildSearchInput()]},
+                                {className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}
+                            ];
+                        }
+                        return [{className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}];
+                    })()
                 }
             ]
         };
