@@ -20,9 +20,8 @@ export class Menu extends Selector implements SelectorInterface {
         return this;
     }
 
-    private _menuSelect(selectedDom: HTMLElement, name:string) {
+    private _menuSelect(selectedDom: HTMLElement, name: string) {
         if (this.limitNumber === 1) {
-            let d: string = this.selectData[0];
             selectedDom.innerHTML = `<span class="jk-text-trim">${name}</span>`;
             return;
         }
@@ -110,21 +109,38 @@ export class Menu extends Selector implements SelectorInterface {
         };
     }
 
+    private _directionShow() {
+        let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+        if (!(listDom instanceof HTMLElement)) return;
+        listDom.style.display = 'flex';
+        if (this.direction === SELECTOR_MENU_DIRECTION.Up) {
+            listDom.style.top = `-${listDom.clientHeight + 2.5}px`;
+            listDom.style.flexDirection = 'column-reverse';
+        } else if (this.direction === SELECTOR_MENU_DIRECTION.Mid) {
+            listDom.style.top = `-${listDom.clientHeight / 2}px`;
+        } else if (this.direction === SELECTOR_MENU_DIRECTION.Right) {
+            listDom.style.top = `0`;
+            listDom.style.left = `${this.DOM.offsetWidth}px`;
+        } else if (this.direction === SELECTOR_MENU_DIRECTION.RightMid) {
+            listDom.style.top = `-${listDom.clientHeight / 2}px`;
+            listDom.style.left = `${this.DOM.offsetWidth}px`;
+        } else if (this.direction === SELECTOR_MENU_DIRECTION.RightUp) {
+            listDom.style.top = `-${listDom.clientHeight + 2.5 - this.DOM.offsetHeight}px`;
+            listDom.style.left = `${this.DOM.offsetWidth}px`;
+            listDom.style.flexDirection = 'column-reverse';
+        } else if (this.direction === SELECTOR_MENU_DIRECTION.Left) {
+            let selectDom = this.DOM.querySelector('.jk-selector-menu-select');
+            if (selectDom instanceof HTMLElement) selectDom.style.flexDirection = 'row-reverse';
+            listDom.style.top = `0`;
+            listDom.style.left = `-${this.DOM.offsetWidth}px`;
+        }
+    }
+
     make() {
         let domTree = {
             className: 'jk jk-selector-menu',
             events: {
-                click: () => {
-                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
-                    if (!(listDom instanceof HTMLElement)) return;
-                    listDom.style.display = 'flex';
-                    if (this.direction === SELECTOR_MENU_DIRECTION.Up) {
-                        listDom.style.top = `-${listDom.clientHeight + 2.5}px`;
-                        listDom.style.flexDirection = 'column-reverse';
-                    } else if (this.direction === SELECTOR_MENU_DIRECTION.Mid) {
-                        listDom.style.top = `-${listDom.clientHeight / 2}px`;
-                    }
-                },
+                click: () => this._directionShow(),
                 /*                mouseleave: () => {
                                     let listDom = this.DOM.querySelector('.jk-selector-menu-list');
                                     if (!(listDom instanceof HTMLElement)) return;
@@ -138,7 +154,28 @@ export class Menu extends Selector implements SelectorInterface {
             nodes: [
                 {
                     className: 'jk-input jk-selector-menu-select',
-                    nodes: `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}">${this.placeholder}</div><div>▼</div>`
+                    nodes:
+                        (() => {
+                            let cursor = '';
+                            if ([SELECTOR_MENU_DIRECTION.Left,
+                                SELECTOR_MENU_DIRECTION.LeftMid,
+                                SELECTOR_MENU_DIRECTION.LeftUp].includes(this.direction)) {
+                                cursor = 'style="transform: rotate(90deg);"';
+                            }else if([SELECTOR_MENU_DIRECTION.Right,
+                                SELECTOR_MENU_DIRECTION.RightMid,
+                                SELECTOR_MENU_DIRECTION.RightUp].includes(this.direction)){
+                                cursor = 'style="transform: rotate(270deg);"';
+                            }
+                            return `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}">${this.placeholder}</div><div ${cursor}>▼</div>`;
+                        })(),
+                    styles: (() => {
+                        if ([SELECTOR_MENU_DIRECTION.Left,
+                            SELECTOR_MENU_DIRECTION.LeftMid,
+                            SELECTOR_MENU_DIRECTION.LeftUp].includes(this.direction)) {
+                            return {'flex-direction': 'row-reverse'};
+                        }
+                        return {};
+                    })()
                 },
                 {
                     className: 'jk-selector-menu-list',

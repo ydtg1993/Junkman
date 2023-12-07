@@ -6,7 +6,13 @@ export enum SELECTOR_MODE {
 export enum SELECTOR_MENU_DIRECTION {
     Down,
     Up,
-    Mid
+    Mid,
+    Right,
+    RightUp,
+    RightMid,
+    Left,
+    LeftUp,
+    LeftMid
 }
 
 export interface SelectorInterface {

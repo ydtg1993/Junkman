@@ -11,6 +11,15 @@ export function createDOMFromTree(node: any, parent: HTMLElement) {
         }
     }
 
+    if (node.hasOwnProperty('styles')) {
+        for (let k in node.styles) {
+            if (node.styles.hasOwnProperty(k)) {
+                // @ts-ignore
+                dom.style[k] = node.styles[k];
+            }
+        }
+    }
+
     if (node.hasOwnProperty('events')) {
         for (let e in node.events) {
             if (node.events.hasOwnProperty(e)) {
