@@ -107,7 +107,7 @@ export class Menu extends Selector implements SelectorInterface {
             nodes: [
                 {
                     className: 'jk-input jk-selector-menu-select',
-                    nodes: `<div class="jk-selector-selected-area jk-text-trim">${this.placeholder}</div><div>▼</div>`
+                    nodes: `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber!=1?' multi':''}">${this.placeholder}</div><div>▼</div>`
                 },
                 {
                     className: 'jk-selector-menu-list',
@@ -120,12 +120,5 @@ export class Menu extends Selector implements SelectorInterface {
         };
 
         createDOMFromTree(domTree, this.DOM);
-        return;
-
-/*        // @ts-ignore
-        this.SELECTED_DOM = this.DOM.querySelector(`.jk-selector-menu-select>div:first-child`);
-        // @ts-ignore
-        this.CONTENT_DOM = this.DOM.querySelector(`jk-selector-menu-select>div`);
-        if (this.limitNumber !== 1) this.SELECTED_DOM.classList.add("multi");*/
     }
 }
