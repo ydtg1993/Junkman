@@ -20,15 +20,15 @@ export class Menu extends Selector implements SelectorInterface {
         return this;
     }
 
-    private _menuSelect(selectedDom: HTMLElement, select: { [key: string]: string }) {
+    private _menuSelect(selectedDom: HTMLElement, name:string) {
         if (this.limitNumber === 1) {
             let d: string = this.selectData[0];
-            selectedDom.innerHTML = `<span class="jk-text-trim">${select[d]}</span>`;
+            selectedDom.innerHTML = `<span class="jk-text-trim">${name}</span>`;
             return;
         }
         let html = '';
         for (let id of this.selectData) {
-            html += `<span class="jk-text-trim" title="${select[id]}">${select[id]}</span>`;
+            html += `<span class="jk-text-trim" title="${name}">${name}</span>`;
         }
         selectedDom.innerHTML = html;
     };
@@ -37,41 +37,41 @@ export class Menu extends Selector implements SelectorInterface {
         let tree = [];
         let line = 0;
         let select = this.select;
-        for (let id in select) {
-            if (!select.hasOwnProperty(id)) continue;
-            this.id_line_hash[id] = line;
+        for (let name in select) {
+            if (!select.hasOwnProperty(name)) continue;
+            this.value_line_hash[select[name]] = line;
             line++;
             tree.push({
-                attributes: {'data-id': id, 'data-v': select[id]},
-                nodes: `<div class="jk-text-trim">${select[id]}</div>`,
+                attributes: {'data-name': name, 'data-value': select[name]},
+                nodes: `<div class="jk-text-trim">${name}</div>`,
                 events: {
                     click: (e: Event, dom: HTMLElement) => {
                         let option = dom;
                         let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
                         if (!(selectedDom instanceof HTMLElement)) return;
-                        if (this.selectData.indexOf(id) !== -1) {
+                        if (this.selectData.indexOf(select[name]) !== -1) {
                             /*cancel*/
-                            this._tagCal(id, SELECTOR_MODE.Delete);
+                            this._tagCal(select[name], SELECTOR_MODE.Delete);
                             option.removeAttribute("active");
                             let svg = option.querySelector("svg");
                             if (svg) {
                                 option.removeChild(svg);
                             }
-                            this._menuSelect(selectedDom, select);
+                            this._menuSelect(selectedDom, name);
                             if (this.selectData.length === 0) selectedDom.textContent = this.placeholder;
                             return;
                         }
                         if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber) {
                             this.triggerEvent.enable = false;
-                            let index = this.id_line_hash[this.selectData[0]] + 1;
+                            let index = this.value_line_hash[this.selectData[0].toString()] + 1;
                             let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
                             if (popOpt instanceof HTMLElement) popOpt.click();
                             this.triggerEvent.enable = true;
                         }
                         option.setAttribute('active', '1');
-                        this._tagCal(id, SELECTOR_MODE.Insert);
+                        this._tagCal(select[name], SELECTOR_MODE.Insert);
                         option.insertAdjacentHTML('beforeend', Icon.check);
-                        this._menuSelect(selectedDom, select);
+                        this._menuSelect(selectedDom, name);
                     }
                 }
             });
@@ -97,14 +97,14 @@ export class Menu extends Selector implements SelectorInterface {
                     }
                     setTimeout(() => {
                         options.forEach((option) => {
-                            let text: string = option.getAttribute('data-v') as string;
+                            let text: string = option.getAttribute('data-name') as string;
                             if (keywords.indexOf(text) !== -1 || text.indexOf(keywords) !== -1) {
                                 option.style.display = 'flex';
                                 return;
                             }
                             option.style.display = 'none';
                         });
-                    }, 500);
+                    }, 300);
                 }
             }
         };

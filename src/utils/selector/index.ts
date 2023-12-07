@@ -14,7 +14,7 @@ export class Selector {
     protected INSERT_INPUT_DOM!: HTMLElement | null;
     protected DELETE_INPUT_DOM!: HTMLElement | null;
     protected SELECT_COVER_DOM!: HTMLElement;
-    protected id_line_hash: { [id: string]: number } = {};
+    protected value_line_hash: { [id: string]: number } = {};
 
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         this.DOM = dom;
