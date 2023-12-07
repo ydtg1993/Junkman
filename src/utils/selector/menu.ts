@@ -161,15 +161,15 @@ export class Menu extends Selector implements SelectorInterface {
             className: 'jk jk-selector-menu',
             events: {
                 click: () => this._directionShow(),
-                /*                mouseleave: () => {
-                                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
-                                    if (!(listDom instanceof HTMLElement)) return;
-                                    listDom.style.display = 'none';
-                                    if (this.useSearchMod) {
-                                        // @ts-ignore
-                                        this.DOM.querySelector(`.jk-selector-search>input`).value = '';
-                                    }
-                                }*/
+                mouseleave: () => {
+                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+                    if (!(listDom instanceof HTMLElement)) return;
+                    listDom.style.display = 'none';
+                    if (this.useSearchMod) {
+                        // @ts-ignore
+                        this.DOM.querySelector(`.jk-selector-search>input`).value = '';
+                    }
+                }
             },
             nodes: [
                 {
@@ -215,12 +215,27 @@ export class Menu extends Selector implements SelectorInterface {
         createDOMFromTree(domTree, this.DOM);
 
         let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+        if(!(listDom instanceof HTMLElement))return;
         if ([SELECTOR_MENU_DIRECTION.LeftMid,
             SELECTOR_MENU_DIRECTION.LeftUp,
             SELECTOR_MENU_DIRECTION.RightMid,
             SELECTOR_MENU_DIRECTION.RightUp].includes(this.direction)) {
-            if(listDom instanceof HTMLElement)listDom.style.height = listDom.clientHeight + 'px';
+            listDom.style.height = listDom.clientHeight + 'px';
         }
-        if(listDom instanceof HTMLElement)listDom.style.display = 'none';
+        listDom.style.display = 'none';
+
+        (async ()=> {
+            let options = listDom.querySelectorAll('.jk-selector-menu-options>div');
+            options.forEach((D) => {
+                if(!(D instanceof HTMLElement))return;
+                let value = D.getAttribute('data-value') as string;
+                if (this.selectedData.indexOf(value) !== -1) {
+                    this.triggerEvent.enable = false;
+                    D.click();
+                    this.triggerEvent.enable = true;
+                }
+            });
+            listDom.style.display = 'none';
+        })();
     }
 }

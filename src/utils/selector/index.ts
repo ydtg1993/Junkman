@@ -29,12 +29,7 @@ export class Selector {
         selected = selected.map(function (elem) {
             return elem.toString();
         });
-        selected = selected.filter(d => {
-            // @ts-ignore
-            if (this.select[d]) return false;
-            return true;
-        });
-        this.selectedData = selected;
+        this.selectedData = selected.filter(d => Object.keys(this.select).map(key => this.select[key]).includes(d));
         return this;
     }
 
