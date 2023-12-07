@@ -1,6 +1,6 @@
 export enum SELECTOR_MODE {
-    Insert,
-    Delete
+    Delete,
+    Insert
 }
 
 export enum SELECTOR_MENU_DIRECTION {

@@ -43,6 +43,11 @@ export class Selector {
         return this;
     }
 
+    trigger(f:()=>void):this {
+        this.triggerEvent = {func: f, enable: true};
+        return this;
+    }
+
     useHiddenInput(name: string): this {
         this.DOM.insertAdjacentHTML('beforeend', `
 <input name="${name}[select]" value="[]" type="hidden" />
@@ -134,7 +139,11 @@ export class Selector {
             }
         }
         if (typeof this.triggerEvent.func == 'function' && this.triggerEvent.enable) {
-            this.triggerEvent.func(this.selectData, this.insertData, this.deleteData);
+            this.triggerEvent.func({
+                operate:operate ,
+                select:this.selectData,
+                insert:this.insertData,
+                delete:this.deleteData});
         }
     }
 }

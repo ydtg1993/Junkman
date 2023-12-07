@@ -20,13 +20,19 @@ export class Menu extends Selector implements SelectorInterface {
         return this;
     }
 
-    private _menuSelect(selectedDom: HTMLElement, name: string) {
+    private _selectedInputShow(selectedDom: HTMLElement) {
+        let names:string[] = [];
+        // @ts-ignore
+        this.selectData.forEach((d)=>{
+            let name = Object.keys(this.select).find(key => this.select[key] === d) as string;
+            names.push(name);
+        });
         if (this.limitNumber === 1) {
-            selectedDom.innerHTML = `<span class="jk-text-trim">${name}</span>`;
+            selectedDom.innerHTML = `<span class="jk-text-trim">${names[0]}</span>`;
             return;
         }
         let html = '';
-        for (let id of this.selectData) {
+        for (let name of names) {
             html += `<span class="jk-text-trim" title="${name}">${name}</span>`;
         }
         selectedDom.innerHTML = html;
@@ -51,26 +57,30 @@ export class Menu extends Selector implements SelectorInterface {
                         if (this.selectData.indexOf(select[name]) !== -1) {
                             /*cancel*/
                             this._tagCal(select[name], SELECTOR_MODE.Delete);
-                            option.removeAttribute("active");
-                            let svg = option.querySelector("svg");
-                            if (svg) {
-                                option.removeChild(svg);
-                            }
-                            this._menuSelect(selectedDom, name);
-                            if (this.selectData.length === 0) selectedDom.textContent = this.placeholder;
+                            (async ()=>{
+                                option.removeAttribute("active");
+                                let svg = option.querySelector("svg");
+                                if (svg) {
+                                    option.removeChild(svg);
+                                }
+                                this._selectedInputShow(selectedDom);
+                                if (this.selectData.length === 0) selectedDom.textContent = this.placeholder;
+                            })();
                             return;
                         }
-                        if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber) {
-                            this.triggerEvent.enable = false;
-                            let index = this.value_line_hash[this.selectData[0].toString()] + 1;
-                            let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
-                            if (popOpt instanceof HTMLElement) popOpt.click();
-                            this.triggerEvent.enable = true;
-                        }
-                        option.setAttribute('active', '1');
                         this._tagCal(select[name], SELECTOR_MODE.Insert);
-                        option.insertAdjacentHTML('beforeend', Icon.check);
-                        this._menuSelect(selectedDom, name);
+                        (async ()=>{
+                            if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber) {
+                                this.triggerEvent.enable = false;
+                                let index = this.value_line_hash[this.selectData[0].toString()] + 1;
+                                let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
+                                if (popOpt instanceof HTMLElement) popOpt.click();
+                                this.triggerEvent.enable = true;
+                            }
+                            option.setAttribute('active', '1');
+                            option.insertAdjacentHTML('beforeend', Icon.check);
+                            this._selectedInputShow(selectedDom);
+                        })();
                     }
                 }
             });
