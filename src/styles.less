@@ -67,6 +67,58 @@
   }
 }
 
+.jk-button {
+  background: linear-gradient(180deg, #303030 0, #585858 49%, #000 59%, #3e3e3e 100%);
+  border: solid 1px #262626;
+  box-shadow: inset 0 3px 9px #232323, inset 0 3px 12px #323232, inset 0 15px 9px #4a4a4a, inset 0 3px 3px 0 #8b8b8b, 0 1px 3px rgb(16 16 16 / 66%);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px !important;
+  padding: 5px 10px;
+  transition: 20ms ease-out;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff;
+
+  &.jk-button-red {
+    background: linear-gradient(180deg, #bf1010 0, #cb3636 49%, #a40404 59%, #ff3c3c 100%);
+    border-color: #262626;
+    box-shadow: inset 0 3px 9px #914242, inset 0 3px 12px #7e2020, inset 0 15px 9px #7c1212, inset 0 3px 3px 0 #5a0404, 0 1px 3px rgb(16 16 16 / 66%);
+  }
+
+  &.jk-button-green {
+    background: linear-gradient(180deg, #61d76d 0, #005c10 59%, #00ff18 100%);
+    border-color: #00740b;
+    box-shadow: inset 0 3px 9px #148b1f, inset 0 3px 12px #23a92f, inset 0 15px 9px #328f3b, inset 0 3px 3px 0 #18e32b, 0 1px 3px rgb(16 16 16 / 66%);
+  }
+
+  &.jk-button-blue {
+    background: linear-gradient(180deg, #2125bd 0, #5054df 39%, #1c23e9 59%, #0a0c89 100%);
+    border-color: #00387a;
+    box-shadow: inset 0 3px 9px #001c83, inset 0 3px 12px #0362d7, inset 0 15px 9px #5276f7, inset 0 3px 3px 0 #616dff, 0 1px 3px rgb(83 141 249 / 66%);
+  }
+
+  &.jk-button-yellow {
+    background: linear-gradient(180deg, #fff980 0, #faff00 39%, #c2d003 60%, #d2e125 100%);
+    border-color: #d3e100;
+    box-shadow: inset 0 3px 9px #b9c515, inset 0 3px 12px #e3f30f, inset 0 15px 9px #efff00, inset 0 3px 3px 0 #ceed34, 0 1px 3px rgb(192 255 37 / 66%);
+    color: #00046c;
+  }
+
+  &:hover {
+    background: linear-gradient(180deg,#222222 0,#444 49%,#242424 59%,#3e3e3e 100%);
+  }
+
+  &:disabled, &.jk-button-active {
+    cursor: not-allowed;
+    background: #545454;
+    border: solid 1px #262626;
+    box-shadow: inset 0 2px 5px #141414, inset -2px 0 3px #444444;
+    color: #ccc;
+  }
+}
+
 @keyframes jk-shadow-animation {
   0% {
     -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 15%), 0 0 8px rgba(0, 0, 0, 0.1);

@@ -6,7 +6,7 @@
     border-radius: 3px;
     color: #ffffff;
     border: 1px solid #1e1e1e;
-    background: linear-gradient(177deg, #1a1a1a 0, #7d7d7d 49%, #353535 29%,#7d7d7d 49%,#434343 79%, #292929 100%);
+    background: linear-gradient(177deg, #1a1a1a 0, #7d7d7d 49%, #353535 29%, #7d7d7d 49%, #434343 79%, #292929 100%);
     box-shadow: inset 0 3px 9px #232323, inset 0 3px 12px #323232, inset 0 15px 9px #555555, inset 0 3px 3px 0 #575757, 0 2px 3px rgb(16 16 16 / 71%);
 
     & > div:first-child {
@@ -19,23 +19,24 @@
       color: #9d9d9d;
       justify-content: center;
 
-      & > span{
+      & > span {
         color: white;
       }
     }
 
-    & > div:first-child.multi{
+    & > div:first-child.multi {
       justify-content: left;
     }
-    & > div:first-child.multi > span{
+
+    & > div:first-child.multi > span {
       background: #ffffff;
       color: #000000;
       display: flex;
       border-radius: 2px;
-      padding: 0 2px!important;
+      padding: 0 2px !important;
       height: 85%;
       align-items: center;
-      margin-right: 3px!important;
+      margin-right: 3px !important;
       max-width: 5em;
       min-width: 1.5em;
       justify-content: center;
@@ -61,13 +62,13 @@
     width: 100%;
     align-content: flex-start;
 
-    & > .jk-selector-search{
+    & > .jk-selector-search {
       width: 100%;
       height: 26px;
       display: flex;
       align-items: center;
 
-      & > input{
+      & > input {
         height: 24px;
         border: 1px solid #ababab;
         margin: 0 2px;
@@ -83,17 +84,47 @@
         align-items: center;
         height: 28px;
         cursor: pointer;
+        transition: background-color .3s ease;
         border-bottom: 1px solid #d9d9d9;
 
-        & > div:first-child{
+        & > div:first-child {
           width: 100%;
           text-align: center;
         }
       }
 
-      & > div:hover,& > div[active="1"]{
+      & > div:hover, & > div[active="1"] {
         background: rgb(0 0 0 / 8%);
       }
     }
+  }
+}
+
+.jk-selector-switcher {
+  display: flex;
+  background: #e1e1e1;
+  border-radius: 5px;
+  border: 1px solid #616161;
+
+  & > div {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    background: #e1e1e1;
+    border-right: 1px solid #616161;
+    transition: background-color .3s ease;
+  }
+
+  & > div:hover, & > div[active="1"] {
+    background: rgb(0 0 0 / 8%);
+  }
+
+  & > div:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  & > div:last-child {
+    border-radius: 0 5px 5px 0;
+    border-right: none;
   }
 }

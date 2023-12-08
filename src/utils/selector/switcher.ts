@@ -14,7 +14,7 @@ export class Switcher extends Selector implements SelectorInterface {
             line++;
             tree.push({
                 attributes: {'data-name': name, 'data-value': select[name]},
-                className:'jk-switcher-option jk-text-trim',
+                className:'jk-switcher-option jk-input jk-text-trim',
                 textContent:name,
                 events: {
                     click: (e: Event, option: HTMLElement) => {
