@@ -1,6 +1,9 @@
 import {loader} from './aid/loader';
 import {contextmenu} from './aid/contextmenu';
 import {request} from './aid/request';
+import {createDOMFromTree} from './aid/dombuilder'
+import {imgDelay} from "./aid/imgdelay";
+import {Icon} from "./aid/icon";
 
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
@@ -41,7 +44,7 @@ const selector = {
 };
 
 export {
-    request, loader, contextmenu,
+    request, loader, contextmenu,createDOMFromTree,imgDelay,Icon,
     Tip,
     selector, SELECTOR_MENU_DIRECTION,SELECTOR_SWITCHER_DIRECTION,SELECTOR_MODE
 };
