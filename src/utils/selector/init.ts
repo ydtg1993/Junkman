@@ -20,5 +20,5 @@ export interface SelectorInterface {
     limit: (num: number) => this;
     searchOff: () => this;
     useHiddenInput: (name: string) => this;
-    make:()=>void;
+    make: () => void;
 }

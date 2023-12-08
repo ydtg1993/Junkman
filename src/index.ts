@@ -5,6 +5,7 @@ import {request} from './aid/request';
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
 import {SELECTOR_MENU_DIRECTION} from './utils/selector/init'
+import {Sandbox} from "./utils/selector/sandbox";
 
 const selector = {
     /**
@@ -21,7 +22,9 @@ const selector = {
      *     }
      * @function make   des:build document
      */
-    Menu: Menu
+    Menu: Menu,
+
+    Sandbox:Sandbox,
 };
 
 export {

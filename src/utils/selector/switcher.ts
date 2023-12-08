@@ -1,7 +1,7 @@
 import {Selector} from "./index";
 import {SELECTOR_MENU_DIRECTION, SelectorInterface} from "./init";
 
-export class Sandbox extends Selector implements SelectorInterface {
+export class Switcher extends Selector implements SelectorInterface {
 
     make(){
         let domTree = {
