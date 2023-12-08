@@ -70,7 +70,7 @@ export class Menu extends Selector implements SelectorInterface {
                         }
                         this._tagCal(select[name], SELECTOR_MODE.Insert);
                         (async ()=>{
-                            if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber) {
+                            if (this.limitNumber > 0 && this.selectData.length > this.limitNumber) {
                                 this.triggerEvent.enable = false;
                                 let index = this.value_line_hash[this.selectData[0].toString()] + 1;
                                 let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
