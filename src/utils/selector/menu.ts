@@ -14,9 +14,9 @@ export class Menu extends Selector implements SelectorInterface {
 
     settings({placeholder, height, direction}:
                  { placeholder?: string, height?: string, direction?: SELECTOR_MENU_DIRECTION }): this {
-        if (placeholder) this.placeholder = placeholder;
-        if (height) this.maxHeight = height;
-        if (direction) this.direction = direction;
+        if (placeholder !== undefined) this.placeholder = placeholder;
+        if (height !== undefined) this.maxHeight = height;
+        if (direction !== undefined) this.direction = direction;
         return this;
     }
 

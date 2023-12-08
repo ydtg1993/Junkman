@@ -3,6 +3,11 @@ export enum SELECTOR_MODE {
     Insert
 }
 
+export enum SELECTOR_SWITCHER_DIRECTION {
+    Vertical,
+    Horizontal
+}
+
 export enum SELECTOR_MENU_DIRECTION {
     Down,
     Up,

@@ -4,7 +4,7 @@ import {request} from './aid/request';
 
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
-import {SELECTOR_MENU_DIRECTION,SELECTOR_MODE} from './utils/selector/init'
+import {SELECTOR_MENU_DIRECTION,SELECTOR_SWITCHER_DIRECTION,SELECTOR_MODE} from './utils/selector/init'
 import {Sandbox} from "./utils/selector/sandbox";
 import {Switcher} from "./utils/selector/switcher";
 
@@ -43,5 +43,5 @@ const selector = {
 export {
     request, loader, contextmenu,
     Tip,
-    selector, SELECTOR_MENU_DIRECTION,SELECTOR_MODE
+    selector, SELECTOR_MENU_DIRECTION,SELECTOR_SWITCHER_DIRECTION,SELECTOR_MODE
 };
