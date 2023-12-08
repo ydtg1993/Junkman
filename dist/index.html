@@ -12,6 +12,12 @@
             background: red;
             display: block;
         }
+
+        body {
+            background: url(./bg.svg) repeat;
+            width: 100%;
+            min-height: calc(100vh);
+        }
     </style>
 </head>
 <body>
@@ -21,15 +27,60 @@
         <div class="ka">2</div>
         <div class="ka">3</div>
     </div>
+
+    <div style="display: flex;justify-content: center">
+        <div id="selector-menu" style="width: 220px;margin-bottom: 120px"></div>
+    </div>
+
+    <div style="display: flex;justify-content: center;margin-bottom: 120px">
+        <div id="selector-switcher" style="width: 220px"></div>
+    </div>
+
+    <div style="display: flex;justify-content: center;margin-bottom: 120px">
+        <div id="selector-sandbox" style="width: 320px"></div>
+    </div>
 </div>
 <script>
-    junkman.contextmenu(document.querySelectorAll(".ka"),[
+    junkman.contextmenu(document.querySelectorAll(".ka"), [
         {title: 't1', func: () => alert(1)},
         {title: 't2', func: () => alert(2)}
     ]);
     //junkman.request({url:'xx',data:{a:1}})
-    new junkman.Tip().push("ssssss",500000);
-    new junkman.Dot().modMenu('ss','100px',junkman.DotDirection.Up)
+    //new junkman.Tip().push("ssssss",5000);
+        new junkman.selector.Menu(document.getElementById('selector-menu'), {"a":'1',"b":'2',"c":'3'})
+            .settings({direction:junkman.SELECTOR_MENU_DIRECTION.Down})
+            .limit(1)
+            //.searchOff()
+            .useHiddenInput("menu_select")
+            .selected(['1'])
+            .trigger((data)=>{
+                console.log('choose option trigger this event:');
+                console.log(data);
+            })
+            .make();
+    new junkman.selector.Switcher(document.getElementById('selector-switcher'), {"a": '1', "b": '2', "c": '3'})
+        .settings({direction: junkman.SELECTOR_SWITCHER_DIRECTION.Vertical})
+        .limit(1)
+        .useHiddenInput("menu_select")
+        .selected(['1'])
+        .trigger((data) => {
+            console.log('choose option trigger this event:');
+            console.log(data);
+        })
+        .make();
+/*    new junkman.selector.Sandbox(document.getElementById('selector-sandbox'), {"a": '1', "b": '2', "c": '3'})
+        .settings({direction: junkman.SELECTOR_MENU_DIRECTION.Down})
+        .limit(1)
+        //.searchOff()
+        .useHiddenInput("sandbox_select")
+        .selected(['1'])
+        .trigger((data) => {
+            console.log('choose option trigger this event:');
+            console.log("the current selected option value is :" + data.value);
+            if (junkman.SELECTOR_MODE.Insert === data.operate) console.log("choose this option");
+            if (junkman.SELECTOR_MODE.Delete === data.operate) console.log("cancel this option");
+        })
+        .make();*/
 </script>
 </body>
 </html>
