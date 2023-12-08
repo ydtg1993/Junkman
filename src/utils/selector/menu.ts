@@ -50,8 +50,7 @@ export class Menu extends Selector implements SelectorInterface {
                 attributes: {'data-name': name, 'data-value': select[name]},
                 nodes: `<div class="jk-text-trim">${name}</div>`,
                 events: {
-                    click: (e: Event, dom: HTMLElement) => {
-                        let option = dom;
+                    click: (e: Event, option: HTMLElement) => {
                         let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
                         if (!(selectedDom instanceof HTMLElement)) return;
                         if (this.selectData.indexOf(select[name]) !== -1) {
