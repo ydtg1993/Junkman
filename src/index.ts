@@ -4,31 +4,44 @@ import {request} from './aid/request';
 
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
-import {SELECTOR_MENU_DIRECTION} from './utils/selector/init'
+import {SELECTOR_MENU_DIRECTION,SELECTOR_MODE} from './utils/selector/init'
 import {Sandbox} from "./utils/selector/sandbox";
+import {Switcher} from "./utils/selector/switcher";
 
 const selector = {
     /**
      * @class Menu
-     * @param dom   type:HTMLDocument   des:bind parent node
-     * @param select    type:{key:value,...}    des:select options data
+     * @param dom   type:HTMLDocument   description: bind parent node
+     * @param select    type:{key:value,...}    description: select options data
      *
-     * @function limit(int)  des:preset selected options limit number
-     * @function settings(params)   des:preset menu select placeholder,options max height, options popup direction
-     *      @params {
+     * @function limit(num:int)     description: preset selected options limit number
+     * @function selected(params)   params:[value,...]
+     * @function settings(params)   description: preset menu select placeholder,options max height, options popup direction
+     *      params: {
      *          placeholder:string,
      *          height:string,
      *          direction:junkman.SELECTOR_MENU_DIRECTION
      *     }
-     * @function make   des:build document
+     * @function useHiddenInput(name:string)    description: use hidden input save data
+     * @function trigger    description: preset callback function in the event on click option
+     *      callback: (data)=>{
+     *          data.value      description: current selected value
+     *          data.operate    description: insert or delete
+     *          data.select     description: selected options
+     *          data.insert     description: selected options except beginning selected
+     *          data.delete     description: deleted from the beginning selected
+     *      }
+     * @function make   description: :build document
      */
     Menu: Menu,
 
     Sandbox:Sandbox,
+
+    Switcher:Switcher,
 };
 
 export {
     request, loader, contextmenu,
     Tip,
-    selector, SELECTOR_MENU_DIRECTION
+    selector, SELECTOR_MENU_DIRECTION,SELECTOR_MODE
 };

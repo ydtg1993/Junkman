@@ -89,24 +89,24 @@ export class Selector {
             if (id) this._tagCal(id, SELECTOR_MODE.Delete);
         };*/
 
-    protected _tagCal(id: string, operate: SELECTOR_MODE) {
-        let index = this.selectData.indexOf(id);
+    protected _tagCal(value: string, operate: SELECTOR_MODE) {
+        let index = this.selectData.indexOf(value);
         if (operate === SELECTOR_MODE.Insert) {
             if (index === -1) {
-                this.selectData.push(id);
+                this.selectData.push(value);
                 if (this.SELECT_INPUT_DOM instanceof HTMLElement) {
                     // @ts-ignore
                     this.SELECT_INPUT_DOM.value = JSON.stringify(this.selectData);
                 }
             }
-            if (this.selectedData.indexOf(id) === -1 && this.insertData.indexOf(id) === -1) {
-                this.insertData.push(id);
+            if (this.selectedData.indexOf(value) === -1 && this.insertData.indexOf(value) === -1) {
+                this.insertData.push(value);
                 if (this.INSERT_INPUT_DOM instanceof HTMLElement) {
                     // @ts-ignore
                     this.INSERT_INPUT_DOM.value = JSON.stringify(this.insertData);
                 }
             }
-            index = this.deleteData.indexOf(id);
+            index = this.deleteData.indexOf(value);
             if (index !== -1) {
                 this.deleteData.splice(index, 1);
                 if (this.DELETE_INPUT_DOM instanceof HTMLElement) {
@@ -122,14 +122,14 @@ export class Selector {
                     this.SELECT_INPUT_DOM.value = JSON.stringify(this.selectData);
                 }
             }
-            if (this.selectedData.indexOf(id) !== -1 && this.deleteData.indexOf(id) === -1) {
-                this.deleteData.push(id);
+            if (this.selectedData.indexOf(value) !== -1 && this.deleteData.indexOf(value) === -1) {
+                this.deleteData.push(value);
                 if (this.DELETE_INPUT_DOM instanceof HTMLElement) {
                     // @ts-ignore
                     this.DELETE_INPUT_DOM.value = JSON.stringify(this.deleteData);
                 }
             }
-            index = this.insertData.indexOf(id);
+            index = this.insertData.indexOf(value);
             if (index !== -1) {
                 this.insertData.splice(index, 1);
                 if (this.INSERT_INPUT_DOM instanceof HTMLElement) {
@@ -140,6 +140,7 @@ export class Selector {
         }
         if (typeof this.triggerEvent.func == 'function' && this.triggerEvent.enable) {
             this.triggerEvent.func({
+                value:value,
                 operate:operate ,
                 select:this.selectData,
                 insert:this.insertData,

@@ -5,20 +5,9 @@ export class Switcher extends Selector implements SelectorInterface {
 
     make(){
         let domTree = {
-            className: 'jk jk-selector-sandbox',
+            className: 'jk jk-selector-switcher',
             nodes: [
-                {
-                    className:'jk-selector-sandbox-head',
-                    nodes:[
-                        {className: 'jk-input jk-selector-menu-select'}
-                    ]
-                },
-                {
-                    className:'jk-selector-sandbox-body',
-                    nodes:[
 
-                    ]
-                }
             ]
         };
     }
