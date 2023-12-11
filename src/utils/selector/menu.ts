@@ -7,16 +7,18 @@ export class Menu extends Selector implements SelectorInterface {
     private placeholder: string = '-select-';
     private maxHeight: string = '150px';
     private direction: SELECTOR_MENU_DIRECTION = SELECTOR_MENU_DIRECTION.Down;
+    private show:boolean = false;
 
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         super(dom, select);
     }
 
-    settings({placeholder, height, direction}:
-                 { placeholder?: string, height?: string, direction?: SELECTOR_MENU_DIRECTION }): this {
+    settings({placeholder, height, direction,show}:
+                 { placeholder?: string, height?: string, direction?: SELECTOR_MENU_DIRECTION,show?:boolean }): this {
         if (placeholder !== undefined) this.placeholder = placeholder;
         if (height !== undefined) this.maxHeight = height;
         if (direction !== undefined) this.direction = direction;
+        if (show !== undefined) this.show = show;
         return this;
     }
 
@@ -171,6 +173,7 @@ export class Menu extends Selector implements SelectorInterface {
             events: {
                 click: () => this._directionShow(),
                 mouseleave: () => {
+                    if(this.show)return;
                     let listDom = this.DOM.querySelector('.jk-selector-menu-list');
                     if (!(listDom instanceof HTMLElement)) return;
                     listDom.style.display = 'none';
@@ -231,7 +234,6 @@ export class Menu extends Selector implements SelectorInterface {
             SELECTOR_MENU_DIRECTION.RightUp].includes(this.direction)) {
             listDom.style.height = listDom.clientHeight + 'px';
         }
-        listDom.style.display = 'none';
 
         (async ()=> {
             let options = listDom.querySelectorAll('.jk-selector-menu-options>div');
@@ -244,7 +246,7 @@ export class Menu extends Selector implements SelectorInterface {
                     this.triggerEvent.enable = true;
                 }
             });
-            listDom.style.display = 'none';
+            if(!this.show) listDom.style.display = 'none';
         })();
     }
 }
