@@ -47,19 +47,21 @@
     ]);
     //junkman.request({url:'xx',data:{a:1}})
     //new junkman.Tip().push("ssssss",5000);
-        new junkman.selector.Menu(document.getElementById('selector-menu'), {"a":'1',"b":'2',"c":'3'})
-            .settings({direction:junkman.SELECTOR_MENU_DIRECTION.Down})
-            .limit(1)
-            //.searchOff()
-            .useHiddenInput("menu_select")
-            .selected(['1'])
-            .trigger((data)=>{
-                console.log('choose option trigger this event:');
-                console.log(data);
-            })
-            .make();
-    new junkman.selector.Switcher(document.getElementById('selector-switcher'), {"a": '1', "b": '2', "c": '3'})
-        .settings({direction: junkman.SELECTOR_SWITCHER_DIRECTION.Vertical})
+    let testData = {"a":'1',"b":'2',"c":'3',"d":'4',"e":'5'};
+
+    new junkman.selector.Menu(document.getElementById('selector-menu'), testData)
+        .settings({direction:junkman.SELECTOR_MENU_DIRECTION.Down})
+        .limit(1)
+        //.searchOff()
+        .useHiddenInput("menu_select")
+        .selected(['1'])
+        .trigger((data)=>{
+            console.log('choose option trigger this event:');
+            console.log(data);
+        })
+        .make();
+    new junkman.selector.Switcher(document.getElementById('selector-switcher'), testData)
+        //.settings({direction: junkman.SELECTOR_SWITCHER_DIRECTION.Vertical})
         .limit(1)
         .useHiddenInput("menu_select")
         .selected(['1'])

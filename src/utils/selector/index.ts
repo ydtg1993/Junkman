@@ -59,36 +59,6 @@ export class Selector {
         return this;
     }
 
-    /*    protected _tagSelect(element: HTMLElement) {
-            let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
-            if(!(selectedDom instanceof HTMLElement))return;
-            if (this.limitNumber > 0 && this.selectData.length >= this.limitNumber && selectedDom.firstChild instanceof HTMLElement) {
-                this.triggerEvent.enable = false;
-                selectedDom.firstChild.click();
-                this.triggerEvent.enable = true;
-            }
-            let clone = element.cloneNode(true);
-            // @ts-ignore
-            clone.addEventListener('click', () => this._tagCancel(clone), false);
-            selectedDom.appendChild(clone);
-            element.remove();
-            let id = element.getAttribute('data-id');
-            if (id) this._tagCal(id, SELECTOR_MODE.Insert);
-            selectedDom.scrollTop = selectedDom.scrollHeight;
-        }
-
-        protected _tagCancel(element: HTMLElement) {
-            let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
-            if(!(selectedDom instanceof HTMLElement))return;
-            let clone = element.cloneNode(true);
-            // @ts-ignore
-            clone.addEventListener('click', () => this._tagSelect(clone), false);
-            selectedDom.appendChild(clone);
-            element.remove();
-            let id = element.getAttribute('data-id');
-            if (id) this._tagCal(id, SELECTOR_MODE.Delete);
-        };*/
-
     protected _tagCal(value: string, operate: SELECTOR_MODE) {
         let index = this.selectData.indexOf(value);
         if (operate === SELECTOR_MODE.Insert) {
