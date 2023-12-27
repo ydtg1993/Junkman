@@ -58,15 +58,19 @@ export class Modal {
         if (position.x) {
             if (position.x.charAt(0) === 'T') {
                 this.windowStyles.top = position.x.substring(1);
-            } else {
+            } else if (position.x.charAt(0) === 'B') {
                 this.windowStyles.bottom = position.x.substring(1);
+            } else {
+                
             }
         }
         if (position.y) {
             if (position.y.charAt(0) === 'L') {
                 this.windowStyles.left = position.y.substring(1);
-            } else {
+            } else if (position.y.charAt(0) === 'R') {
                 this.windowStyles.right = position.y.substring(1);
+            } else {
+
             }
         }
         return this;
