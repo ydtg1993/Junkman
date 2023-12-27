@@ -1,5 +1,6 @@
 import {createDOMFromTree} from "../../aid/dombuilder";
 import {Icon} from "../../index";
+import {generateUniqueString} from "../../aid/random";
 
 export class Modal {
     protected xhr: { url: string, method?: string, data?: {}, callback?: () => void } | undefined;
@@ -17,6 +18,7 @@ export class Modal {
     protected parentNode: HTMLElement = document.body;
     protected fullscreen: boolean = false;
     protected gauze: boolean = false;
+    protected unique: string = '';
 
 
     constructor(content: any) {
@@ -34,6 +36,7 @@ export class Modal {
         } else {
             console.error('type of content error!');
         }
+        this.unique = generateUniqueString(10);
     }
 
     public setTitle(title: string) {
@@ -42,10 +45,10 @@ export class Modal {
     }
 
     public setSize(size: { width?: any, height?: any }) {
-        if(size.width){
+        if (size.width) {
             this.windowStyles.width = size.width;
         }
-        if(size.height){
+        if (size.height) {
             this.windowStyles.height = size.height;
         }
         return this;
@@ -53,16 +56,16 @@ export class Modal {
 
     public setPos(position: { x?: string, y?: string }) {
         if (position.x) {
-            if(position.x.charAt(0) === 'T'){
+            if (position.x.charAt(0) === 'T') {
                 this.windowStyles.top = position.x.substring(1);
-            }else {
+            } else {
                 this.windowStyles.bottom = position.x.substring(1);
             }
         }
         if (position.y) {
-            if(position.y.charAt(0) === 'L'){
+            if (position.y.charAt(0) === 'L') {
                 this.windowStyles.left = position.y.substring(1);
-            }else {
+            } else {
                 this.windowStyles.right = position.y.substring(1);
             }
         }
@@ -84,6 +87,14 @@ export class Modal {
         return this;
     }
 
+    public close() {
+        this.parentNode.removeChild(this.DOM);
+    }
+
+    public getUniqueCode() {
+        return this.unique;
+    }
+
     private buildHeader() {
         let header = {
             className: 'jk-modal-header', nodes: [
@@ -97,15 +108,9 @@ export class Modal {
 
         header.nodes.push({
             // @ts-ignore
-            events: {click: () => this.parentNode.removeChild(this.DOM)}, nodes: Icon.close
+            events: {click: () => this.close()}, nodes: Icon.close
         });
         return header;
-    }
-
-    private buildBody() {
-        let body = {className: 'jk-modal-body', nodes: []};
-
-        return body;
     }
 
     private buildFooter() {
@@ -116,15 +121,15 @@ export class Modal {
 
     make() {
         let domTree = {
-            className: 'jk jk-modal',
+            className: 'jk jk-modal', attributes: {unique: this.unique},
             nodes: [
                 {
                     className: 'jk-modal-window',
                     styles: this.windowStyles,
                     nodes: [
                         this.buildHeader(),
-                        this.buildBody(),
-                        this.buildFooter(),
+                        {className: 'jk-modal-body', nodes: this.content},
+                        //this.buildFooter(),
                     ]
                 }
             ]
@@ -132,7 +137,7 @@ export class Modal {
 
         if (this.gauze) {
             // @ts-ignore
-            domTree.nodes.push({className: 'gauze', events: {click: () => this.parentNode.removeChild(this.DOM)}});
+            domTree.nodes.push({className: 'gauze', events: {click: () => this.close()}});
         }
 
         this.DOM = createDOMFromTree(domTree, this.parentNode);
