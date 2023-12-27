@@ -1,4 +1,4 @@
-export function createDOMFromTree(node: any, parent: HTMLElement) {
+export function createDOMFromTree(node: any, parent: HTMLElement): HTMLElement {
     let tag = 'div';
     if (node.hasOwnProperty('tag')) tag = node.tag;
 
@@ -25,15 +25,15 @@ export function createDOMFromTree(node: any, parent: HTMLElement) {
     if (node.hasOwnProperty('events')) {
         for (let e in node.events) {
             if (node.events.hasOwnProperty(e)) {
-                dom.addEventListener(e, (event)=>node.events[e](event,dom),false);
+                dom.addEventListener(e, (event) => node.events[e](event, dom), false);
             }
         }
     }
 
     if (node.hasOwnProperty('nodes')) {
-        if (typeof node.nodes === 'string'){
+        if (typeof node.nodes === 'string') {
             dom.insertAdjacentHTML('afterbegin', node.nodes);
-        }else {
+        } else {
             node.nodes.forEach((childNode: any) => {
                 createDOMFromTree(childNode, dom);
             });
@@ -41,4 +41,5 @@ export function createDOMFromTree(node: any, parent: HTMLElement) {
     }
 
     parent.appendChild(dom);
+    return dom;
 }

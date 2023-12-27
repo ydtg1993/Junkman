@@ -1,0 +1,54 @@
+.jk-modal {
+  width: 100%;
+  height: 100%;
+
+  & > .jk-modal-window {
+    z-index: 100000;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    & > .jk-modal-header {
+      display: flex;
+      height: 24px;
+      background-color: rgb(44 44 44);
+      padding: 0 3px 0;
+      border-radius: 5px 5px 0 0;
+      align-items: center;
+      color: white;
+
+      & > div:first-child {
+        width: 0;
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+      }
+
+      & svg {
+        cursor: pointer;
+      }
+    }
+
+    & > .jk-modal-body{
+      flex-grow: 1;
+      height: 0;
+      background: white;
+      color: black;
+    }
+
+    & > div:last-child{
+      border-radius: 0 0 5px 5px;
+    }
+  }
+
+  & > .gauze{
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    overflow: hidden;
+  }
+}

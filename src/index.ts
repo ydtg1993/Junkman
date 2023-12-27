@@ -10,6 +10,7 @@ import {Menu} from './utils/selector/menu';
 import {SELECTOR_MENU_DIRECTION,SELECTOR_SWITCHER_DIRECTION,SELECTOR_MODE} from './utils/selector/init'
 import {Sandbox} from "./utils/selector/sandbox";
 import {Switcher} from "./utils/selector/switcher";
+import {Modal} from "./utils/modal/index";
 
 const selector = {
     /**
@@ -46,5 +47,6 @@ const selector = {
 export {
     request, loader, contextmenu,createDOMFromTree,imgDelay,Icon,
     Tip,
+    Modal,
     selector, SELECTOR_MENU_DIRECTION,SELECTOR_SWITCHER_DIRECTION,SELECTOR_MODE
 };

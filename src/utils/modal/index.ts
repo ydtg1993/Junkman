@@ -1,9 +1,20 @@
+import {createDOMFromTree} from "../../aid/dombuilder";
+import {Icon} from "../../index";
+
 export class Modal {
     protected xhr: { url: string, method?: string, data?: {}, callback?: () => void } | undefined;
-    protected content: string | undefined;
-    protected domTree: HTMLElement | undefined;
+    protected content: string | HTMLElement | undefined;
+    protected DOM!: HTMLElement;
     protected title: string = '';
-    protected parentNode: Node | undefined;
+    protected windowStyles: { width?: any, height?: any, top?: string, right?: string, bottom?: string, left?: string } = {
+        width: '80%',
+        height: '80%',
+        top: 'auto',
+        right: 'auto',
+        bottom: 'auto',
+        left: 'auto',
+    };
+    protected parentNode: HTMLElement = document.body;
     protected fullscreen: boolean = false;
     protected gauze: boolean = false;
 
@@ -18,10 +29,8 @@ export class Modal {
                 callback: () => {
                 },
             }, content);
-        } else if (typeof content === 'string') {
+        } else if (typeof content === 'string' || (content instanceof HTMLElement)) {
             this.content = content;
-        } else if (content instanceof HTMLElement) {
-            this.domTree = content;
         } else {
             console.error('type of content error!');
         }
@@ -32,12 +41,31 @@ export class Modal {
         return this;
     }
 
-    public setSize(width?: any, height?: any) {
-
+    public setSize(size: { width?: any, height?: any }) {
+        if(size.width){
+            this.windowStyles.width = size.width;
+        }
+        if(size.height){
+            this.windowStyles.height = size.height;
+        }
         return this;
     }
 
-    public setPosition(top?: 'string', left?: 'string') {
+    public setPos(position: { x?: string, y?: string }) {
+        if (position.x) {
+            if(position.x.charAt(0) === 'T'){
+                this.windowStyles.top = position.x.substring(1);
+            }else {
+                this.windowStyles.bottom = position.x.substring(1);
+            }
+        }
+        if (position.y) {
+            if(position.y.charAt(0) === 'L'){
+                this.windowStyles.left = position.y.substring(1);
+            }else {
+                this.windowStyles.right = position.y.substring(1);
+            }
+        }
         return this;
     }
 
@@ -51,11 +79,62 @@ export class Modal {
         return this;
     }
 
-    public setParentNode(parentNode: Node) {
+    public setParentNode(parentNode: HTMLElement) {
+        this.parentNode = parentNode;
         return this;
     }
 
-    make(){
+    private buildHeader() {
+        let header = {
+            className: 'jk-modal-header', nodes: [
+                {textContent: this.title}
+            ]
+        };
+        if (this.fullscreen) {
+            //@ts-ignore
+            header.nodes.push({events: {click: () => alert(1),}, nodes: Icon.aspect});
+        }
 
+        header.nodes.push({
+            // @ts-ignore
+            events: {click: () => this.parentNode.removeChild(this.DOM)}, nodes: Icon.close
+        });
+        return header;
+    }
+
+    private buildBody() {
+        let body = {className: 'jk-modal-body', nodes: []};
+
+        return body;
+    }
+
+    private buildFooter() {
+        let foot = {className: 'jk-modal-footer', nodes: []};
+
+        return foot;
+    }
+
+    make() {
+        let domTree = {
+            className: 'jk jk-modal',
+            nodes: [
+                {
+                    className: 'jk-modal-window',
+                    styles: this.windowStyles,
+                    nodes: [
+                        this.buildHeader(),
+                        this.buildBody(),
+                        this.buildFooter(),
+                    ]
+                }
+            ]
+        };
+
+        if (this.gauze) {
+            // @ts-ignore
+            domTree.nodes.push({className: 'gauze', events: {click: () => this.parentNode.removeChild(this.DOM)}});
+        }
+
+        this.DOM = createDOMFromTree(domTree, this.parentNode);
     }
 }
