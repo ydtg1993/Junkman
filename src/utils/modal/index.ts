@@ -61,7 +61,7 @@ export class Modal {
             } else if (position.x.charAt(0) === 'B') {
                 this.windowStyles.bottom = position.x.substring(1);
             } else {
-                
+
             }
         }
         if (position.y) {
