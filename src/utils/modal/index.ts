@@ -19,9 +19,13 @@ export class Modal {
     protected fullscreen: boolean = false;
     protected gauze: boolean = false;
     protected unique: string = '';
+    protected window_position_auto = [true, true];
 
+    constructor() {
+        this.unique = generateUniqueString(10);
+    }
 
-    constructor(content: any) {
+    public setContent(content: any) {
         if (typeof content === 'object') {
             this.xhr = content;
             this.xhr = Object.assign({
@@ -36,7 +40,7 @@ export class Modal {
         } else {
             console.error('type of content error!');
         }
-        this.unique = generateUniqueString(10);
+        return this;
     }
 
     public setTitle(title: string) {
@@ -55,22 +59,22 @@ export class Modal {
     }
 
     public setPos(position: { x?: string, y?: string }) {
-        if (position.x) {
-            if (position.x.charAt(0) === 'T') {
-                this.windowStyles.top = position.x.substring(1);
-            } else if (position.x.charAt(0) === 'B') {
-                this.windowStyles.bottom = position.x.substring(1);
-            } else {
-
+        if (position.y) {
+            if (position.y.charAt(0) === 'T') {
+                this.windowStyles.top = position.y.substring(1);
+                this.window_position_auto[1] = false;
+            } else if (position.y.charAt(0) === 'B') {
+                this.windowStyles.bottom = position.y.substring(1);
+                this.window_position_auto[1] = false;
             }
         }
-        if (position.y) {
-            if (position.y.charAt(0) === 'L') {
-                this.windowStyles.left = position.y.substring(1);
-            } else if (position.y.charAt(0) === 'R') {
-                this.windowStyles.right = position.y.substring(1);
-            } else {
-
+        if (position.x) {
+            if (position.x.charAt(0) === 'L') {
+                this.windowStyles.left = position.x.substring(1);
+                this.window_position_auto[0] = false;
+            } else if (position.x.charAt(0) === 'R') {
+                this.windowStyles.right = position.x.substring(1);
+                this.window_position_auto[0] = false;
             }
         }
         return this;
@@ -123,6 +127,19 @@ export class Modal {
         return foot;
     }
 
+    private autoPos(){
+        let w = this.DOM.querySelector('.jk-modal-window');
+        if((w instanceof HTMLElement) && this.window_position_auto[0]){
+            let left = (window.innerWidth - w.clientWidth) / 2;
+            w.style.left = left+'px';
+        }
+
+        if((w instanceof HTMLElement) && this.window_position_auto[1]){
+            let top = (window.innerHeight - w.clientHeight) / 2;
+            w.style.top = top+'px';
+        }
+    }
+
     make() {
         let domTree = {
             className: 'jk jk-modal', attributes: {unique: this.unique},
@@ -145,5 +162,6 @@ export class Modal {
         }
 
         this.DOM = createDOMFromTree(domTree, this.parentNode);
+        this.autoPos();
     }
 }
