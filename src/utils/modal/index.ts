@@ -20,6 +20,7 @@ export class Modal {
     protected gauze: boolean = false;
     protected unique: string = '';
     protected window_position_auto = [true, true];
+    protected window_aspect_mem:[string,string] = ['',''];
 
     constructor() {
         this.unique = generateUniqueString(10);
@@ -43,50 +44,52 @@ export class Modal {
         return this;
     }
 
-    public setTitle(title: string) {
-        this.title = title;
-        return this;
-    }
-
-    public setSize(size: { width?: any, height?: any }) {
-        if (size.width) {
-            this.windowStyles.width = size.width;
+    public setOptions(options: {
+        title?:string,
+        aspect?: { width?: string, height?: string },
+        position: { x?: string, y?: string },
+        fullscreen?:boolean,
+        close?:boolean,
+        gauze?:boolean,
+        headerHidden?:boolean,
+    }) {
+        if(options.title){
+            this.title = options.title;
         }
-        if (size.height) {
-            this.windowStyles.height = size.height;
+        if(options.gauze){
+            this.gauze = options.gauze;
         }
-        return this;
-    }
-
-    public setPos(position: { x?: string, y?: string }) {
-        if (position.y) {
-            if (position.y.charAt(0) === 'T') {
-                this.windowStyles.top = position.y.substring(1);
-                this.window_position_auto[1] = false;
-            } else if (position.y.charAt(0) === 'B') {
-                this.windowStyles.bottom = position.y.substring(1);
-                this.window_position_auto[1] = false;
+        if(options.fullscreen){
+            this.fullscreen = options.fullscreen;
+        }
+        if(options.aspect) {
+            if (options.aspect.width) {
+                this.windowStyles.width = options.aspect.width;
+            }
+            if (options.aspect.height) {
+                this.windowStyles.height = options.aspect.height;
             }
         }
-        if (position.x) {
-            if (position.x.charAt(0) === 'L') {
-                this.windowStyles.left = position.x.substring(1);
-                this.window_position_auto[0] = false;
-            } else if (position.x.charAt(0) === 'R') {
-                this.windowStyles.right = position.x.substring(1);
-                this.window_position_auto[0] = false;
+        if(options.position) {
+            if (options.position.y) {
+                if (options.position.y.charAt(0) === 'T') {
+                    this.windowStyles.top = options.position.y.substring(1);
+                    this.window_position_auto[1] = false;
+                } else if (options.position.y.charAt(0) === 'B') {
+                    this.windowStyles.bottom = options.position.y.substring(1);
+                    this.window_position_auto[1] = false;
+                }
+            }
+            if (options.position.x) {
+                if (options.position.x.charAt(0) === 'L') {
+                    this.windowStyles.left = options.position.x.substring(1);
+                    this.window_position_auto[0] = false;
+                } else if (options.position.x.charAt(0) === 'R') {
+                    this.windowStyles.right = options.position.x.substring(1);
+                    this.window_position_auto[0] = false;
+                }
             }
         }
-        return this;
-    }
-
-    public setFullscreen() {
-        this.fullscreen = true;
-        return this;
-    }
-
-    public setGauze() {
-        this.gauze = true;
         return this;
     }
 
@@ -109,35 +112,51 @@ export class Modal {
                 {textContent: this.title}
             ]
         };
-        if (this.fullscreen) {
-            //@ts-ignore
-            header.nodes.push({events: {click: () => alert(1),}, nodes: Icon.aspect});
-        }
-
+        //@ts-ignore
+        header.nodes.push({events: {click: () => {
+            if(this.window_aspect_mem[0] === ''){
+                this.buildFullscreen();
+            }else {
+                this.resize();
+            }
+        }}, nodes: Icon.aspect});
         header.nodes.push({
             // @ts-ignore
-            events: {click: () => this.close()}, nodes: Icon.close
+            events: {click: () => this.close()}, nodes: Icon.close,styles: {margin:'0 5px 0 10px'},
         });
         return header;
     }
 
-    private buildFooter() {
-        let foot = {className: 'jk-modal-footer', nodes: []};
+    private autoPos() {
+        let w = this.DOM.querySelector('.jk-modal-window');
+        if(!(w instanceof HTMLElement))return;
+        if (this.window_position_auto[0]) {
+            let left = (window.innerWidth - w.clientWidth) / 2;
+            w.style.left = left + 'px';
+        }
 
-        return foot;
+        if (this.window_position_auto[1]) {
+            let top = (window.innerHeight - w.clientHeight) / 2;
+            w.style.top = top + 'px';
+        }
     }
 
-    private autoPos(){
+    private buildFullscreen(){
         let w = this.DOM.querySelector('.jk-modal-window');
-        if((w instanceof HTMLElement) && this.window_position_auto[0]){
-            let left = (window.innerWidth - w.clientWidth) / 2;
-            w.style.left = left+'px';
-        }
+        if(!(w instanceof HTMLElement))return;
+        this.window_aspect_mem = [w.clientWidth + 'px',w.clientHeight + 'px'];
+        w.style.width = '100%';
+        w.style.height = '100%';
+        w.style.inset = '0';
+    }
 
-        if((w instanceof HTMLElement) && this.window_position_auto[1]){
-            let top = (window.innerHeight - w.clientHeight) / 2;
-            w.style.top = top+'px';
-        }
+    private resize(){
+        let w = this.DOM.querySelector('.jk-modal-window');
+        if(!(w instanceof HTMLElement))return;
+        w.style.width = this.window_aspect_mem[0];
+        w.style.height = this.window_aspect_mem[1];
+        this.window_aspect_mem = ['',''];
+        this.autoPos();
     }
 
     make() {
@@ -150,7 +169,6 @@ export class Modal {
                     nodes: [
                         this.buildHeader(),
                         {className: 'jk-modal-body', nodes: this.content},
-                        //this.buildFooter(),
                     ]
                 }
             ]
@@ -163,5 +181,6 @@ export class Modal {
 
         this.DOM = createDOMFromTree(domTree, this.parentNode);
         this.autoPos();
+        this.fullscreen && this.buildFullscreen();
     }
 }
