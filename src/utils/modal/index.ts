@@ -21,6 +21,8 @@ export class Modal {
     protected unique: string = '';
     protected window_position_auto = [true, true];
     protected window_aspect_mem:[string,string] = ['',''];
+    protected timeout: number = -1;
+    protected headerHidden: boolean = false;
 
     constructor() {
         this.unique = generateUniqueString(10);
@@ -52,6 +54,7 @@ export class Modal {
         close?:boolean,
         gauze?:boolean,
         headerHidden?:boolean,
+        timeout?:number,
     }) {
         if(options.title){
             this.title = options.title;
@@ -61,6 +64,12 @@ export class Modal {
         }
         if(options.fullscreen){
             this.fullscreen = options.fullscreen;
+        }
+        if(options.timeout){
+            this.timeout = options.timeout;
+        }
+        if(options.headerHidden){
+            this.headerHidden = options.headerHidden;
         }
         if(options.aspect) {
             if (options.aspect.width) {
@@ -147,6 +156,7 @@ export class Modal {
         this.window_aspect_mem = [w.clientWidth + 'px',w.clientHeight + 'px'];
         w.style.width = '100%';
         w.style.height = '100%';
+        // @ts-ignore
         w.style.inset = '0';
     }
 
@@ -167,12 +177,16 @@ export class Modal {
                     className: 'jk-modal-window',
                     styles: this.windowStyles,
                     nodes: [
-                        this.buildHeader(),
                         {className: 'jk-modal-body', nodes: this.content},
                     ]
                 }
             ]
         };
+
+        if(!this.headerHidden){
+            // @ts-ignore
+            domTree.nodes[0].nodes.unshift(this.buildHeader());
+        }
 
         if (this.gauze) {
             // @ts-ignore
@@ -182,5 +196,8 @@ export class Modal {
         this.DOM = createDOMFromTree(domTree, this.parentNode);
         this.autoPos();
         this.fullscreen && this.buildFullscreen();
+        if(this.timeout>0){
+            setTimeout(()=>this.close(),this.timeout*1000);
+        }
     }
 }

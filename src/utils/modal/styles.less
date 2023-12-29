@@ -13,7 +13,6 @@
       height: 24px;
       background-color: rgb(44 44 44);
       padding: 0 3px 0;
-      border-radius: 5px 5px 0 0;
       align-items: center;
       color: white;
 
@@ -35,8 +34,14 @@
       color: black;
     }
 
+    & > div:first-child{
+      border-radius: 5px 5px 0 0;
+    }
     & > div:last-child{
       border-radius: 0 0 5px 5px;
+    }
+    & > div:only-child{
+      border-radius: 5px;
     }
   }
 
