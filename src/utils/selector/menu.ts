@@ -198,13 +198,12 @@ export class Menu extends Selector implements SelectorInterface {
                 {
                     className: 'jk-selector-menu-list',
                     nodes: (() => {
+                        let nodes = [];
                         if (!this.searchOff) {
-                            return [
-                                {className: 'jk-selector-search', nodes: [this._buildSearchInput()]},
-                                {className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}
-                            ];
+                            nodes.push({className: 'jk-selector-search', nodes: [this._buildSearchInput()]});
                         }
-                        return [{className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}];
+                        nodes.push({className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions(),styles:{maxHeight:this.maxHeight}});
+                        return nodes;
                     })()
                 }
             ]
