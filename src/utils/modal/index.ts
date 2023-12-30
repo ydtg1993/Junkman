@@ -19,7 +19,7 @@ export class Modal {
     protected fullscreen: boolean = false;
     protected gauze: boolean = false;
     protected unique: string = '';
-    protected window_position_auto = [true, true];
+    protected window_position_mem:[string,string] = ['',''];
     protected window_aspect_mem:[string,string] = ['',''];
     protected timeout: number = -1;
     protected headerHidden: boolean = false;
@@ -80,22 +80,20 @@ export class Modal {
             }
         }
         if(options.position) {
-            if (options.position.y) {
-                if (options.position.y.charAt(0) === 'T') {
-                    this.windowStyles.top = options.position.y.substring(1);
-                    this.window_position_auto[1] = false;
-                } else if (options.position.y.charAt(0) === 'B') {
-                    this.windowStyles.bottom = options.position.y.substring(1);
-                    this.window_position_auto[1] = false;
-                }
-            }
             if (options.position.x) {
+                this.window_position_mem[0] = options.position.x;
                 if (options.position.x.charAt(0) === 'L') {
                     this.windowStyles.left = options.position.x.substring(1);
-                    this.window_position_auto[0] = false;
                 } else if (options.position.x.charAt(0) === 'R') {
                     this.windowStyles.right = options.position.x.substring(1);
-                    this.window_position_auto[0] = false;
+                }
+            }
+            if (options.position.y) {
+                this.window_position_mem[1] = options.position.y;
+                if (options.position.y.charAt(0) === 'T') {
+                    this.windowStyles.top = options.position.y.substring(1);
+                } else if (options.position.y.charAt(0) === 'B') {
+                    this.windowStyles.bottom = options.position.y.substring(1);
                 }
             }
         }
@@ -139,14 +137,27 @@ export class Modal {
     private autoPos() {
         let w = this.DOM.querySelector('.jk-modal-window');
         if(!(w instanceof HTMLElement))return;
-        if (this.window_position_auto[0]) {
+        let pos_mem_x = this.window_position_mem[0];
+        if (pos_mem_x === '') {
             let left = (window.innerWidth - w.clientWidth) / 2;
             w.style.left = left + 'px';
+        }else{
+            if (pos_mem_x.charAt(0) === 'L') {
+                w.style.left = pos_mem_x.substring(1);
+            } else if (pos_mem_x.charAt(0) === 'R') {
+                w.style.right = pos_mem_x.substring(1);
+            }
         }
-
-        if (this.window_position_auto[1]) {
+        let pos_mem_y = this.window_position_mem[1];
+        if (pos_mem_y === '') {
             let top = (window.innerHeight - w.clientHeight) / 2;
             w.style.top = top + 'px';
+        }else {
+            if (pos_mem_y.charAt(0) === 'T') {
+                w.style.top = pos_mem_y.substring(1);
+            } else if (pos_mem_y.charAt(0) === 'B') {
+                w.style.bottom = pos_mem_y.substring(1);
+            }
         }
     }
 
@@ -196,8 +207,7 @@ export class Modal {
         this.DOM = createDOMFromTree(domTree, this.parentNode);
         this.autoPos();
         this.fullscreen && this.buildFullscreen();
-        if(this.timeout>0){
-            setTimeout(()=>this.close(),this.timeout*1000);
-        }
+        this.timeout>0 && setTimeout(()=>this.close(),this.timeout*1000);
+
     }
 }
