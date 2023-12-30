@@ -184,7 +184,11 @@ export class Menu extends Selector implements SelectorInterface {
                                 SELECTOR_DIRECTION.RightUp].includes(this.direction)){
                                 cursor = 'style="transform: rotate(270deg);"';
                             }
-                            return `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}">${this.placeholder}</div><div ${cursor}>▼</div>`;
+                            let style = '';
+                            if(this.wrap){
+                                style = 'style="flex-wrap: wrap;"'
+                            }
+                            return `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}" ${style}>${this.placeholder}</div><div ${cursor}>▼</div>`;
                         })(),
                     styles: (() => {
                         if ([SELECTOR_DIRECTION.Left,

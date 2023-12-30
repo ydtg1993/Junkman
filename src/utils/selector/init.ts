@@ -31,6 +31,7 @@ export interface SelectorInterface {
         towards?:SELECTOR_TOWARDS,
         placeholder?:string,
         show?:boolean,
+        wrap?:boolean,
         menuMaxHeight?:string,
     }): this;
     make: () => void;

@@ -21,6 +21,7 @@ export class Selector implements SelectorInterface{
     protected maxHeight: string = '150px';
     protected direction: SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
     protected show:boolean = false;
+    protected wrap:boolean = false;
 
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         this.DOM = dom;
@@ -48,6 +49,7 @@ export class Selector implements SelectorInterface{
         towards?:SELECTOR_TOWARDS,
         placeholder?:string,
         show?:boolean,
+        wrap?:boolean,
         menuMaxHeight?:string,
     }): this {
         if(typeof options.limit === "number"){
@@ -73,6 +75,9 @@ export class Selector implements SelectorInterface{
         }
         if(typeof options.show === "boolean"){
             this.show = options.show;
+        }
+        if(typeof options.wrap === "boolean"){
+            this.wrap = options.wrap;
         }
         if(typeof options.menuMaxHeight === "string"){
             this.maxHeight = options.menuMaxHeight;
