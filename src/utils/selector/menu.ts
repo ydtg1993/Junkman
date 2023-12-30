@@ -1,25 +1,11 @@
 import {Selector} from "./index";
-import {SELECTOR_MENU_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
+import {SELECTOR_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
 import {Icon} from "../../aid/icon";
 import {createDOMFromTree} from "../../aid/dombuilder";
 
 export class Menu extends Selector implements SelectorInterface {
-    private placeholder: string = '-select-';
-    private maxHeight: string = '150px';
-    private direction: SELECTOR_MENU_DIRECTION = SELECTOR_MENU_DIRECTION.Down;
-    private show:boolean = false;
-
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         super(dom, select);
-    }
-
-    settings({placeholder, height, direction,show}:
-                 { placeholder?: string, height?: string, direction?: SELECTOR_MENU_DIRECTION,show?:boolean }): this {
-        if (placeholder !== undefined) this.placeholder = placeholder;
-        if (height !== undefined) this.maxHeight = height;
-        if (direction !== undefined) this.direction = direction;
-        if (show !== undefined) this.show = show;
-        return this;
     }
 
     private _selectedInputShow(selectedDom: HTMLElement) {
@@ -125,39 +111,39 @@ export class Menu extends Selector implements SelectorInterface {
         if (!(listDom instanceof HTMLElement)) return;
         listDom.style.display = 'flex';
         const directionMap = {
-            [SELECTOR_MENU_DIRECTION.Up]: {
+            [SELECTOR_DIRECTION.Up]: {
                 top: `-${listDom.clientHeight + 2.5}px`,
             },
-            [SELECTOR_MENU_DIRECTION.Mid]: {
+            [SELECTOR_DIRECTION.Mid]: {
                 top: `-${listDom.clientHeight / 2}px`
             },
-            [SELECTOR_MENU_DIRECTION.Right]: {
+            [SELECTOR_DIRECTION.Right]: {
                 top: '0',
                 left: `${this.DOM.offsetWidth}px`
             },
-            [SELECTOR_MENU_DIRECTION.RightMid]: {
+            [SELECTOR_DIRECTION.RightMid]: {
                 top: `-${listDom.clientHeight / 2}px`,
                 left: `${this.DOM.offsetWidth}px`
             },
-            [SELECTOR_MENU_DIRECTION.RightUp]: {
+            [SELECTOR_DIRECTION.RightUp]: {
                 top: `-${listDom.clientHeight + 2.5 - this.DOM.offsetHeight}px`,
                 left: `${this.DOM.offsetWidth}px`,
             },
-            [SELECTOR_MENU_DIRECTION.Left]: {
+            [SELECTOR_DIRECTION.Left]: {
                 top: '0',
                 left: `-${this.DOM.offsetWidth}px`
             },
-            [SELECTOR_MENU_DIRECTION.LeftMid]: {
+            [SELECTOR_DIRECTION.LeftMid]: {
                 top: `-${listDom.clientHeight / 2}px`,
                 left: `-${this.DOM.offsetWidth}px`
             },
-            [SELECTOR_MENU_DIRECTION.LeftUp]: {
+            [SELECTOR_DIRECTION.LeftUp]: {
                 top: `-${listDom.clientHeight + 2.5 - this.DOM.offsetHeight}px`,
                 left: `-${this.DOM.offsetWidth}px`
             }
         };
         let selectDom = this.DOM.querySelector('.jk-selector-menu-select');
-        if (selectDom instanceof HTMLElement && [SELECTOR_MENU_DIRECTION.Left, SELECTOR_MENU_DIRECTION.LeftMid, SELECTOR_MENU_DIRECTION.LeftUp].includes(this.direction)) {
+        if (selectDom instanceof HTMLElement && [SELECTOR_DIRECTION.Left, SELECTOR_DIRECTION.LeftMid, SELECTOR_DIRECTION.LeftUp].includes(this.direction)) {
             selectDom.style.flexDirection = 'row-reverse';
         }
         // @ts-ignore
@@ -177,7 +163,7 @@ export class Menu extends Selector implements SelectorInterface {
                     let listDom = this.DOM.querySelector('.jk-selector-menu-list');
                     if (!(listDom instanceof HTMLElement)) return;
                     listDom.style.display = 'none';
-                    if (this.useSearchMod) {
+                    if (!this.searchOff) {
                         // @ts-ignore
                         this.DOM.querySelector(`.jk-selector-search>input`).value = '';
                     }
@@ -189,21 +175,21 @@ export class Menu extends Selector implements SelectorInterface {
                     nodes:
                         (() => {
                             let cursor = '';
-                            if ([SELECTOR_MENU_DIRECTION.Left,
-                                SELECTOR_MENU_DIRECTION.LeftMid,
-                                SELECTOR_MENU_DIRECTION.LeftUp].includes(this.direction)) {
+                            if ([SELECTOR_DIRECTION.Left,
+                                SELECTOR_DIRECTION.LeftMid,
+                                SELECTOR_DIRECTION.LeftUp].includes(this.direction)) {
                                 cursor = 'style="transform: rotate(90deg);"';
-                            }else if([SELECTOR_MENU_DIRECTION.Right,
-                                SELECTOR_MENU_DIRECTION.RightMid,
-                                SELECTOR_MENU_DIRECTION.RightUp].includes(this.direction)){
+                            }else if([SELECTOR_DIRECTION.Right,
+                                SELECTOR_DIRECTION.RightMid,
+                                SELECTOR_DIRECTION.RightUp].includes(this.direction)){
                                 cursor = 'style="transform: rotate(270deg);"';
                             }
                             return `<div class="jk-selector-selected-area jk-text-trim${this.limitNumber != 1 ? ' multi' : ''}">${this.placeholder}</div><div ${cursor}>▼</div>`;
                         })(),
                     styles: (() => {
-                        if ([SELECTOR_MENU_DIRECTION.Left,
-                            SELECTOR_MENU_DIRECTION.LeftMid,
-                            SELECTOR_MENU_DIRECTION.LeftUp].includes(this.direction)) {
+                        if ([SELECTOR_DIRECTION.Left,
+                            SELECTOR_DIRECTION.LeftMid,
+                            SELECTOR_DIRECTION.LeftUp].includes(this.direction)) {
                             return {'flex-direction': 'row-reverse'};
                         }
                         return {};
@@ -212,7 +198,7 @@ export class Menu extends Selector implements SelectorInterface {
                 {
                     className: 'jk-selector-menu-list',
                     nodes: (() => {
-                        if (this.useSearchMod) {
+                        if (!this.searchOff) {
                             return [
                                 {className: 'jk-selector-search', nodes: [this._buildSearchInput()]},
                                 {className: 'jk-selector-menu-options jk-scroll', nodes: this._buildOptions()}
@@ -228,10 +214,10 @@ export class Menu extends Selector implements SelectorInterface {
 
         let listDom = this.DOM.querySelector('.jk-selector-menu-list');
         if(!(listDom instanceof HTMLElement))return;
-        if ([SELECTOR_MENU_DIRECTION.LeftMid,
-            SELECTOR_MENU_DIRECTION.LeftUp,
-            SELECTOR_MENU_DIRECTION.RightMid,
-            SELECTOR_MENU_DIRECTION.RightUp].includes(this.direction)) {
+        if ([SELECTOR_DIRECTION.LeftMid,
+            SELECTOR_DIRECTION.LeftUp,
+            SELECTOR_DIRECTION.RightMid,
+            SELECTOR_DIRECTION.RightUp].includes(this.direction)) {
             listDom.style.height = listDom.clientHeight + 'px';
         }
 

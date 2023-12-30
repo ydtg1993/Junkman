@@ -1,5 +1,5 @@
 import {Selector} from "./index";
-import {SELECTOR_MENU_DIRECTION, SelectorInterface} from "./init";
+import {SelectorInterface} from "./init";
 
 export class Sandbox extends Selector implements SelectorInterface {
 

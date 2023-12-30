@@ -47,31 +47,43 @@
     ]);
     //junkman.request({url:'xx',data:{a:1}})
     //new junkman.Tip().push("ssssss",5000);
-    let testData = {"a":'1',"b":'2',"c":'3',"d":'4',"e":'5'};
+    let testData = {"aaaaaaaaaaaaaaaaaaaa":'1',"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb":'2',"ccccccccccccccccccc":'3',"dddddddddddddddd":'4',"eeeeeeeeeeeeeeeee":'5'};
 
     new junkman.selector.Menu(document.getElementById('selector-menu'), testData)
-        .settings({direction:junkman.SELECTOR_MENU_DIRECTION.Down})
-        .limit(1)
-        //.searchOff()
-        .useHiddenInput("menu_select")
         .selected(['1'])
-        .trigger((data)=>{
-            console.log('choose option trigger this event:');
-            console.log(data);
-        })
-        .make();
-    new junkman.selector.Switcher(document.getElementById('selector-switcher'), testData)
-        //.settings({direction: junkman.SELECTOR_SWITCHER_DIRECTION.Vertical})
-        .limit(1)
-        .useHiddenInput("menu_select")
-        .selected(['1'])
-        .trigger((data) => {
-            console.log('choose option trigger this event:');
-            console.log(data);
+        .setOptions({
+            placeholder:"test",
+            menuMaxHeight:"100px",
+            hiddenInput:"menu",
+            trigger:(data)=>{
+                console.log('choose option trigger this event:');
+                console.log(data);
+            },
+            searchOff:true
         })
         .make();
 
-    new junkman.Modal("<p>111</p>").setTitle("fffff").setPos({x:'T30px'}).setSize({height:'600px'}).setGauze().make();
+    new junkman.selector.Switcher(document.getElementById('selector-switcher'), testData)
+        .selected(['1'])
+        .setOptions({
+            limit:1,
+            hiddenInput:"switcher",
+            trigger:(data)=>{
+                console.log('choose option trigger this event:');
+                console.log(data);
+            }
+        })
+        .make();
+
+    new junkman.Modal()
+        .setContent("<p>222</p>")
+        .setOptions({
+            title:'xxxx',
+            fullscreen:false,
+            gauze:true,
+            headerHidden:false,
+            timeout:5})
+        .make();
 /*    new junkman.selector.Sandbox(document.getElementById('selector-sandbox'), {"a": '1', "b": '2', "c": '3'})
         .settings({direction: junkman.SELECTOR_MENU_DIRECTION.Down})
         .limit(1)

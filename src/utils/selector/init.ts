@@ -3,12 +3,12 @@ export enum SELECTOR_MODE {
     Insert
 }
 
-export enum SELECTOR_SWITCHER_DIRECTION {
+export enum SELECTOR_TOWARDS {
     Vertical,
     Horizontal
 }
 
-export enum SELECTOR_MENU_DIRECTION {
+export enum SELECTOR_DIRECTION {
     Down,
     Up,
     Mid,
@@ -17,13 +17,21 @@ export enum SELECTOR_MENU_DIRECTION {
     RightMid,
     Left,
     LeftUp,
-    LeftMid
+    LeftMid,
 }
 
 export interface SelectorInterface {
     selected: (selected: string[]) => this;
-    limit: (num: number) => this;
-    searchOff: () => this;
-    useHiddenInput: (name: string) => this;
+    setOptions(options:{
+        limit?:number,
+        searchOff?:boolean,
+        trigger?:()=>void,
+        hiddenInput?:string,
+        direction?:SELECTOR_DIRECTION,
+        towards?:SELECTOR_TOWARDS,
+        placeholder?:string,
+        show?:boolean,
+        menuMaxHeight?:string,
+    }): this;
     make: () => void;
 }

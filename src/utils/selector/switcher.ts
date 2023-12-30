@@ -1,15 +1,8 @@
 import {Selector} from "./index";
-import {SELECTOR_MODE, SELECTOR_SWITCHER_DIRECTION, SelectorInterface} from "./init";
+import {SELECTOR_MODE, SELECTOR_TOWARDS, SelectorInterface} from "./init";
 import {createDOMFromTree} from "../../aid/dombuilder";
 
 export class Switcher extends Selector implements SelectorInterface {
-    private direction: SELECTOR_SWITCHER_DIRECTION = SELECTOR_SWITCHER_DIRECTION.Horizontal;
-
-    private settings({direction}:{direction?:SELECTOR_SWITCHER_DIRECTION}) {
-        if (direction !== undefined) this.direction = direction;
-        return this;
-    }
-
     private _buildOptions(): {}[] {
         let tree = [];
         let line = 0;
@@ -54,7 +47,7 @@ export class Switcher extends Selector implements SelectorInterface {
 
     make() {
         let dir = '';
-        if (this.direction === SELECTOR_SWITCHER_DIRECTION.Vertical) dir = ' vertical';
+        if (this.towards === SELECTOR_TOWARDS.Vertical) dir = ' vertical';
         let domTree = {
             className: 'jk jk-selector-switcher' + dir,
             nodes: this._buildOptions()

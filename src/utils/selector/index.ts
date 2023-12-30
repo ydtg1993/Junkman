@@ -1,6 +1,6 @@
-import {SELECTOR_MODE} from "./init";
+import {SELECTOR_DIRECTION, SELECTOR_MODE, SELECTOR_TOWARDS, SelectorInterface} from "./init";
 
-export class Selector {
+export class Selector implements SelectorInterface{
     protected DOM!: HTMLElement;
     protected select: { [key: string]: string } = {};
     protected limitNumber!: number;
@@ -8,13 +8,19 @@ export class Selector {
     protected selectData: string[] = [];
     protected insertData: string[] = [];
     protected deleteData: string[] = [];
-    protected useSearchMod: boolean = true;
+    protected searchOff: boolean = false;
     protected triggerEvent: { func: Function | null; enable: boolean } = {func: null, enable: false};
     protected SELECT_INPUT_DOM!: HTMLElement | null;
     protected INSERT_INPUT_DOM!: HTMLElement | null;
     protected DELETE_INPUT_DOM!: HTMLElement | null;
-    protected SELECT_COVER_DOM!: HTMLElement;
     protected value_line_hash: { [id: string]: number } = {};
+
+    protected towards : SELECTOR_TOWARDS = SELECTOR_TOWARDS.Horizontal;
+
+    protected placeholder: string = '-select-';
+    protected maxHeight: string = '150px';
+    protected direction: SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
+    protected show:boolean = false;
 
     constructor(dom: HTMLElement, select: { [key: string]: string }) {
         this.DOM = dom;
@@ -33,29 +39,54 @@ export class Selector {
         return this;
     }
 
-    limit(num: number): this {
-        this.limitNumber = num;
-        return this;
-    }
-
-    searchOff(): this {
-        this.useSearchMod = false;
-        return this;
-    }
-
-    trigger(f:()=>void):this {
-        this.triggerEvent = {func: f, enable: true};
-        return this;
-    }
-
-    useHiddenInput(name: string): this {
-        this.DOM.insertAdjacentHTML('beforeend', `
-<input name="${name}[select]" value="[]" type="hidden" />
-<input name="${name}[insert]" value="[]" type="hidden" />
-<input name="${name}[delete]" value="[]" type="hidden" />`);
-        this.SELECT_INPUT_DOM = this.DOM.querySelector(`input[name='${name}[select]']`);
-        this.INSERT_INPUT_DOM = this.DOM.querySelector(`input[name='${name}[insert]']`);
-        this.DELETE_INPUT_DOM = this.DOM.querySelector(`input[name='${name}[delete]']`);
+    setOptions(options:{
+        limit?:number,
+        searchOff?:boolean,
+        trigger?:()=>void,
+        hiddenInput?:string,
+        direction?:SELECTOR_DIRECTION,
+        towards?:SELECTOR_TOWARDS,
+        placeholder?:string,
+        show?:boolean,
+        menuMaxHeight?:string,
+    }): this {
+        if(typeof options.limit === "number"){
+            this.limitNumber = options.limit;
+        }
+        if(typeof options.searchOff === "boolean"){
+            this.searchOff = options.searchOff;
+        }
+        if(typeof options.trigger === "function"){
+            this.triggerEvent = {func: options.trigger, enable: true};
+        }
+        if(typeof options.hiddenInput === "string"){
+            this.DOM.insertAdjacentHTML('beforeend', `
+<input name="${options.hiddenInput}[select]" value="[]" type="hidden" />
+<input name="${options.hiddenInput}[insert]" value="[]" type="hidden" />
+<input name="${options.hiddenInput}[delete]" value="[]" type="hidden" />`);
+            this.SELECT_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[select]']`);
+            this.INSERT_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[insert]']`);
+            this.DELETE_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[delete]']`);
+        }
+        if(typeof options.placeholder === "string"){
+            this.placeholder = options.placeholder;
+        }
+        if(typeof options.show === "boolean"){
+            this.show = options.show;
+        }
+        if(typeof options.menuMaxHeight === "string"){
+            this.maxHeight = options.menuMaxHeight;
+        }
+        // @ts-ignore
+        if(options.hasOwnProperty('direction') && options.direction in SELECTOR_DIRECTION){
+            // @ts-ignore
+            this.direction = options.direction;
+        }
+        // @ts-ignore
+        if(options.hasOwnProperty('towards') && options.towards in SELECTOR_TOWARDS){
+            // @ts-ignore
+            this.towards = options.towards;
+        }
         return this;
     }
 
@@ -117,4 +148,8 @@ export class Selector {
                 delete:this.deleteData});
         }
     }
+
+    make(){
+
+    };
 }
