@@ -35,7 +35,7 @@ export function createDOMFromTree(node: any, parent: HTMLElement|undefined = und
             dom.insertAdjacentHTML('afterbegin', node.nodes);
         } else if(node.nodes instanceof HTMLElement){
             dom.appendChild(node.nodes);
-        }else {
+        }else if(Array.isArray(node.nodes)) {
             node.nodes.forEach((childNode: any) => {
                 createDOMFromTree(childNode, dom);
             });

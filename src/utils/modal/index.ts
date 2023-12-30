@@ -202,8 +202,7 @@ export class Modal {
             domTree.nodes.push({className: 'gauze', events: {click: () => this.close()}});
         }
 
-        this.DOM = createDOMFromTree(domTree);
-        createDOMFromTree(domTree,this.parentNode);
+        this.DOM = createDOMFromTree(domTree,this.parentNode);
         this.buildPosition();
         this.fullscreen && this.buildFullscreen();
         this.timeout>0 && setTimeout(()=>this.close(),this.timeout*1000);
