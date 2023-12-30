@@ -1,4 +1,4 @@
-export function createDOMFromTree(node: any, parent: HTMLElement): HTMLElement {
+export function createDOMFromTree(node: any, parent: HTMLElement|undefined = undefined): HTMLElement {
     let tag = 'div';
     if (node.hasOwnProperty('tag')) tag = node.tag;
 
@@ -42,6 +42,6 @@ export function createDOMFromTree(node: any, parent: HTMLElement): HTMLElement {
         }
     }
 
-    parent.appendChild(dom);
+    (parent instanceof HTMLElement) && parent.appendChild(dom);
     return dom;
 }

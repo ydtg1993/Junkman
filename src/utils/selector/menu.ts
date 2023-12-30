@@ -213,7 +213,7 @@ export class Menu extends Selector implements SelectorInterface {
             ]
         };
 
-        createDOMFromTree(domTree, this.DOM);
+        createDOMFromTree(domTree,this.DOM);
 
         let listDom = this.DOM.querySelector('.jk-selector-menu-list');
         if(!(listDom instanceof HTMLElement))return;

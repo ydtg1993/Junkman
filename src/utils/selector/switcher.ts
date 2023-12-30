@@ -53,7 +53,7 @@ export class Switcher extends Selector implements SelectorInterface {
             nodes: this._buildOptions()
         };
 
-        createDOMFromTree(domTree, this.DOM);
+        createDOMFromTree(domTree,this.DOM);
         (async () => {
             let options = this.DOM.querySelectorAll('div');
             options.forEach((D) => {
