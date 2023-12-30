@@ -47,7 +47,7 @@
     ]);
     //junkman.request({url:'xx',data:{a:1}})
     //new junkman.Tip().push("ssssss",5000);
-    let testData = {"aaaaaaaaaaaaaaaaaaaa":'1',"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb":'2',"ccccccccccccccccccc":'3',"dddddddddddddddd":'4',"eeeeeeeeeeeeeeeee":'5'};
+    let testData = {"a":'1',"b":'2',"c":'3',"d":'4',"e":'5'};
 
     new junkman.selector.Menu(document.getElementById('selector-menu'), testData)
         .selected(['1'])
@@ -59,7 +59,7 @@
                 console.log('choose option trigger this event:');
                 console.log(data);
             },
-            searchOff:true
+            wrap:true,
         })
         .make();
 
