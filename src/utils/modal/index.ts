@@ -29,7 +29,7 @@ export class Modal {
     }
 
     public setContent(content: any) {
-        if (typeof content === 'object') {
+        if (typeof content === 'object' && content.hasOwnProperty('url')) {
             this.xhr = content;
             this.xhr = Object.assign({
                 method: 'GET',
