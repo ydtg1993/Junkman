@@ -1,13 +1,9 @@
 import {Selector} from "./index";
-import {SELECTOR_DIRECTION, SELECTOR_MODE, SelectorInterface} from "./init";
+import {SELECTOR_DIRECTION, SELECTOR_MODE, SELECTOR_TOWARDS, SelectorInterface} from "./init";
 import {Icon} from "../../aid/icon";
 import {createDOMFromTree} from "../../aid/dombuilder";
 
 export class Menu extends Selector implements SelectorInterface {
-    constructor(dom: HTMLElement, select: { [key: string]: string }) {
-        super(dom, select);
-    }
-
     private _selectedInputShow(selectedDom: HTMLElement) {
         let names:string[] = [];
         // @ts-ignore

@@ -23,24 +23,7 @@ export class Selector implements SelectorInterface{
     protected show:boolean = false;
     protected wrap:boolean = false;
 
-    constructor(dom: HTMLElement, select: { [key: string]: string }) {
-        this.DOM = dom;
-        this.select = select;
-    }
-
-    selected(selected: string[]): this {
-        if (!Array.isArray(selected)) {
-            console.error('selected params must be array[string] !');
-            return this;
-        }
-        selected = selected.map(function (elem) {
-            return elem.toString();
-        });
-        this.selectedData = selected.filter(d => Object.keys(this.select).map(key => this.select[key]).includes(d));
-        return this;
-    }
-
-    setOptions(options:{
+    constructor(dom: HTMLElement, select: { [key: string]: string },options:{
         limit?:number,
         searchOff?:boolean,
         trigger?:()=>void,
@@ -51,7 +34,10 @@ export class Selector implements SelectorInterface{
         show?:boolean,
         wrap?:boolean,
         menuMaxHeight?:string,
-    }): this {
+    }) {
+        this.DOM = dom;
+        this.select = select;
+
         if(typeof options.limit === "number"){
             this.limitNumber = options.limit;
         }
@@ -92,6 +78,17 @@ export class Selector implements SelectorInterface{
             // @ts-ignore
             this.towards = options.towards;
         }
+    }
+
+    selected(selected: string[]): this {
+        if (!Array.isArray(selected)) {
+            console.error('selected params must be array[string] !');
+            return this;
+        }
+        selected = selected.map(function (elem) {
+            return elem.toString();
+        });
+        this.selectedData = selected.filter(d => Object.keys(this.select).map(key => this.select[key]).includes(d));
         return this;
     }
 

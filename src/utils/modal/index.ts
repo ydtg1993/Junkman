@@ -34,6 +34,7 @@ export class Modal {
         headerHidden?:boolean,
         timeout?:number,
         zIndex?:number,
+        parentNode?: HTMLElement
     }) {
         this.unique = generateUniqueString(10);
         if(options.title){
@@ -81,6 +82,9 @@ export class Modal {
                 this.window_position_auto[1] = false;
             }
         }
+        if(options.parentNode instanceof HTMLElement) {
+            this.parentNode = options.parentNode;
+        }
     }
 
     public setContent(content: any) {
@@ -98,11 +102,6 @@ export class Modal {
         } else {
             console.error('type of content error!');
         }
-        return this;
-    }
-
-    public setParentNode(parentNode: HTMLElement) {
-        this.parentNode = parentNode;
         return this;
     }
 
