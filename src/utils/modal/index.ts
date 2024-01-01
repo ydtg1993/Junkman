@@ -24,29 +24,7 @@ export class Modal {
     protected enlarge:boolean = false;
     protected window_position_auto = [true, true];
 
-    constructor() {
-        this.unique = generateUniqueString(10);
-    }
-
-    public setContent(content: any) {
-        if (typeof content === 'object' && content.hasOwnProperty('url')) {
-            this.xhr = content;
-            this.xhr = Object.assign({
-                method: 'GET',
-                url: '',
-                data: {},
-                callback: () => {
-                },
-            }, content);
-        } else if (typeof content === 'string' || (content instanceof HTMLElement)) {
-            this.content = content;
-        } else {
-            console.error('type of content error!');
-        }
-        return this;
-    }
-
-    public setOptions(options: {
+    constructor(options: {
         title?:string,
         aspect?: { width?: string, height?: string },
         position: { x?: string, y?: string },
@@ -55,7 +33,9 @@ export class Modal {
         gauze?:boolean,
         headerHidden?:boolean,
         timeout?:number,
+        zIndex?:number,
     }) {
+        this.unique = generateUniqueString(10);
         if(options.title){
             this.title = options.title;
         }
@@ -67,6 +47,10 @@ export class Modal {
         }
         if(options.timeout){
             this.timeout = options.timeout;
+        }
+        if(options.zIndex && options.zIndex > 0){
+            //@ts-ignore
+            this.windowStyles.zIndex = options.zIndex;
         }
         if(options.headerHidden){
             this.headerHidden = options.headerHidden;
@@ -96,6 +80,23 @@ export class Modal {
                 }
                 this.window_position_auto[1] = false;
             }
+        }
+    }
+
+    public setContent(content: any) {
+        if (typeof content === 'object' && content.hasOwnProperty('url')) {
+            this.xhr = content;
+            this.xhr = Object.assign({
+                method: 'GET',
+                url: '',
+                data: {},
+                callback: () => {
+                },
+            }, content);
+        } else if (typeof content === 'string' || (content instanceof HTMLElement)) {
+            this.content = content;
+        } else {
+            console.error('type of content error!');
         }
         return this;
     }
@@ -198,14 +199,19 @@ export class Modal {
         }
 
         if (this.gauze) {
+            let gauze = {className: 'gauze', events: {click: () => this.close()}};
             // @ts-ignore
-            domTree.nodes.push({className: 'gauze', events: {click: () => this.close()}});
+            if(this.windowStyles.zIndex > 0){
+                // @ts-ignore
+                gauze.styles = {zIndex:this.windowStyles.zIndex-1};
+            }
+            // @ts-ignore
+            domTree.nodes.push(gauze);
         }
 
         this.DOM = createDOMFromTree(domTree,this.parentNode);
         this.buildPosition();
         this.fullscreen && this.buildFullscreen();
         this.timeout>0 && setTimeout(()=>this.close(),this.timeout*1000);
-
     }
 }

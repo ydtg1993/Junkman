@@ -75,16 +75,16 @@
         })
         .make();
 
-    let modal = new junkman.Modal()
-        .setOptions({
-            title:'xxxx',
-            fullscreen:false,
-            gauze:true,
-            headerHidden:false,
-            aspect:{width:"300px"},
-            position:{x:"L10px",y:"B10px"},
-            //timeout:5,
-        });
+    let modal = new junkman.Modal({
+        title:'xxxx',
+        fullscreen:false,
+        gauze:true,
+        headerHidden:false,
+        aspect:{width:"300px"},
+        position:{x:"L10px",y:"B10px"},
+        zIndex:1000,
+        //timeout:5,
+    });
     let treeDom = {
         styles:{color:'green'},
         nodes: "<h1>this is a test</h1>"
