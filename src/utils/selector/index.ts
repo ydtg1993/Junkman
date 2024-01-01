@@ -1,7 +1,7 @@
 import {SELECTOR_DIRECTION, SELECTOR_MODE, SELECTOR_TOWARDS, SelectorInterface} from "./init";
 
 export class Selector implements SelectorInterface{
-    protected DOM!: HTMLElement;
+    protected parentNode: HTMLElement = document.body;
     protected select: { [key: string]: string } = {};
     protected limitNumber!: number;
     protected selectedData: string[] = [];
@@ -23,7 +23,7 @@ export class Selector implements SelectorInterface{
     protected show:boolean = false;
     protected wrap:boolean = false;
 
-    constructor(dom: HTMLElement, select: { [key: string]: string },options:{
+    constructor(select: { [key: string]: string },options:{
         limit?:number,
         searchOff?:boolean,
         trigger?:()=>void,
@@ -34,8 +34,8 @@ export class Selector implements SelectorInterface{
         show?:boolean,
         wrap?:boolean,
         menuMaxHeight?:string,
+        parentNode?: HTMLElement
     }) {
-        this.DOM = dom;
         this.select = select;
 
         if(typeof options.limit === "number"){
@@ -48,13 +48,13 @@ export class Selector implements SelectorInterface{
             this.triggerEvent = {func: options.trigger, enable: true};
         }
         if(typeof options.hiddenInput === "string"){
-            this.DOM.insertAdjacentHTML('beforeend', `
+            this.parentNode.insertAdjacentHTML('beforeend', `
 <input name="${options.hiddenInput}[select]" value="[]" type="hidden" />
 <input name="${options.hiddenInput}[insert]" value="[]" type="hidden" />
 <input name="${options.hiddenInput}[delete]" value="[]" type="hidden" />`);
-            this.SELECT_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[select]']`);
-            this.INSERT_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[insert]']`);
-            this.DELETE_INPUT_DOM = this.DOM.querySelector(`input[name='${options.hiddenInput}[delete]']`);
+            this.SELECT_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[select]']`);
+            this.INSERT_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[insert]']`);
+            this.DELETE_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[delete]']`);
         }
         if(typeof options.placeholder === "string"){
             this.placeholder = options.placeholder;
@@ -77,6 +77,9 @@ export class Selector implements SelectorInterface{
         if(options.hasOwnProperty('towards') && options.towards in SELECTOR_TOWARDS){
             // @ts-ignore
             this.towards = options.towards;
+        }
+        if(options.parentNode instanceof HTMLElement){
+            this.parentNode = options.parentNode;
         }
     }
 

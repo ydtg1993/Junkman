@@ -35,7 +35,7 @@ export class Menu extends Selector implements SelectorInterface {
                 nodes: `<div class="jk-text-trim">${name}</div>`,
                 events: {
                     click: (e: Event, option: HTMLElement) => {
-                        let selectedDom = this.DOM.querySelector('.jk-selector-selected-area');
+                        let selectedDom = this.parentNode.querySelector('.jk-selector-selected-area');
                         if (!(selectedDom instanceof HTMLElement)) return;
                         if (this.selectData.indexOf(select[name]) !== -1) {
                             /*cancel*/
@@ -56,7 +56,7 @@ export class Menu extends Selector implements SelectorInterface {
                             if (this.limitNumber > 0 && this.selectData.length > this.limitNumber) {
                                 this.triggerEvent.enable = false;
                                 let index = this.value_line_hash[this.selectData[0].toString()] + 1;
-                                let popOpt = this.DOM.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
+                                let popOpt = this.parentNode.querySelector(`.jk-selector-menu-options>div:nth-child(${index})`);
                                 if (popOpt instanceof HTMLElement) popOpt.click();
                                 this.triggerEvent.enable = true;
                             }
@@ -80,7 +80,7 @@ export class Menu extends Selector implements SelectorInterface {
                 input: (e: Event, dom: HTMLElement) => {
                     // @ts-ignore
                     let keywords = dom.value;
-                    let options: NodeListOf<HTMLElement> = this.DOM.querySelectorAll('.jk-selector-menu-options>div');
+                    let options: NodeListOf<HTMLElement> = this.parentNode.querySelectorAll('.jk-selector-menu-options>div');
                     if (!keywords) {
                         options.forEach((option) => {
                             option.style.display = 'flex';
@@ -103,7 +103,7 @@ export class Menu extends Selector implements SelectorInterface {
     }
 
     private _directionShow() {
-        let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+        let listDom = this.parentNode.querySelector('.jk-selector-menu-list');
         if (!(listDom instanceof HTMLElement)) return;
         listDom.style.display = 'flex';
         const directionMap = {
@@ -115,30 +115,30 @@ export class Menu extends Selector implements SelectorInterface {
             },
             [SELECTOR_DIRECTION.Right]: {
                 top: '0',
-                left: `${this.DOM.offsetWidth}px`
+                left: `${this.parentNode.offsetWidth}px`
             },
             [SELECTOR_DIRECTION.RightMid]: {
                 top: `-${listDom.clientHeight / 2}px`,
-                left: `${this.DOM.offsetWidth}px`
+                left: `${this.parentNode.offsetWidth}px`
             },
             [SELECTOR_DIRECTION.RightUp]: {
-                top: `-${listDom.clientHeight + 2.5 - this.DOM.offsetHeight}px`,
-                left: `${this.DOM.offsetWidth}px`,
+                top: `-${listDom.clientHeight + 2.5 - this.parentNode.offsetHeight}px`,
+                left: `${this.parentNode.offsetWidth}px`,
             },
             [SELECTOR_DIRECTION.Left]: {
                 top: '0',
-                left: `-${this.DOM.offsetWidth}px`
+                left: `-${this.parentNode.offsetWidth}px`
             },
             [SELECTOR_DIRECTION.LeftMid]: {
                 top: `-${listDom.clientHeight / 2}px`,
-                left: `-${this.DOM.offsetWidth}px`
+                left: `-${this.parentNode.offsetWidth}px`
             },
             [SELECTOR_DIRECTION.LeftUp]: {
-                top: `-${listDom.clientHeight + 2.5 - this.DOM.offsetHeight}px`,
-                left: `-${this.DOM.offsetWidth}px`
+                top: `-${listDom.clientHeight + 2.5 - this.parentNode.offsetHeight}px`,
+                left: `-${this.parentNode.offsetWidth}px`
             }
         };
-        let selectDom = this.DOM.querySelector('.jk-selector-menu-select');
+        let selectDom = this.parentNode.querySelector('.jk-selector-menu-select');
         if (selectDom instanceof HTMLElement && [SELECTOR_DIRECTION.Left, SELECTOR_DIRECTION.LeftMid, SELECTOR_DIRECTION.LeftUp].includes(this.direction)) {
             selectDom.style.flexDirection = 'row-reverse';
         }
@@ -156,12 +156,12 @@ export class Menu extends Selector implements SelectorInterface {
                 click: () => this._directionShow(),
                 mouseleave: () => {
                     if(this.show)return;
-                    let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+                    let listDom = this.parentNode.querySelector('.jk-selector-menu-list');
                     if (!(listDom instanceof HTMLElement)) return;
                     listDom.style.display = 'none';
                     if (!this.searchOff) {
                         // @ts-ignore
-                        this.DOM.querySelector(`.jk-selector-search>input`).value = '';
+                        this.parentNode.querySelector(`.jk-selector-search>input`).value = '';
                     }
                 }
             },
@@ -209,9 +209,9 @@ export class Menu extends Selector implements SelectorInterface {
             ]
         };
 
-        createDOMFromTree(domTree,this.DOM);
+        createDOMFromTree(domTree,this.parentNode);
 
-        let listDom = this.DOM.querySelector('.jk-selector-menu-list');
+        let listDom = this.parentNode.querySelector('.jk-selector-menu-list');
         if(!(listDom instanceof HTMLElement))return;
         if ([SELECTOR_DIRECTION.LeftMid,
             SELECTOR_DIRECTION.LeftUp,

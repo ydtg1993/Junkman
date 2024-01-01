@@ -30,7 +30,7 @@ export class Switcher extends Selector implements SelectorInterface {
                             if (this.limitNumber > 0 && this.selectData.length > this.limitNumber) {
                                 this.triggerEvent.enable = false;
                                 let index = this.value_line_hash[this.selectData[0].toString()] + 1;
-                                let popOpt = this.DOM.querySelector(`div.jk-selector-switcher>div:nth-child(${index})`);
+                                let popOpt = this.parentNode.querySelector(`div.jk-selector-switcher>div:nth-child(${index})`);
                                 if (popOpt instanceof HTMLElement) {
                                     popOpt.click();
                                 }
@@ -53,9 +53,9 @@ export class Switcher extends Selector implements SelectorInterface {
             nodes: this._buildOptions()
         };
 
-        createDOMFromTree(domTree,this.DOM);
+        createDOMFromTree(domTree,this.parentNode);
         (async () => {
-            let options = this.DOM.querySelectorAll('div');
+            let options = this.parentNode.querySelectorAll('div');
             options.forEach((D) => {
                 if (!(D instanceof HTMLElement)) return;
                 let value = D.getAttribute('data-value') as string;
