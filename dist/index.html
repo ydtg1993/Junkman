@@ -49,30 +49,30 @@
     //new junkman.Tip().push("ssssss",5000);
     let testData = {"a":'1',"b":'2',"c":'3',"d":'4',"e":'5'};
 
-    new junkman.selector.Menu(document.getElementById('selector-menu'), testData)
+    new junkman.selector.Menu(testData,{
+        placeholder:"test",
+        menuMaxHeight:"100px",
+        hiddenInput:"menu",
+        trigger:(data)=>{
+            console.log('choose option trigger this event:');
+            console.log(data);
+        },
+        wrap:true,
+        parentNode:document.getElementById('selector-menu')
+    })
         .selected(['1'])
-        .setOptions({
-            placeholder:"test",
-            menuMaxHeight:"100px",
-            hiddenInput:"menu",
-            trigger:(data)=>{
-                console.log('choose option trigger this event:');
-                console.log(data);
-            },
-            wrap:true,
-        })
         .make();
 
-    new junkman.selector.Switcher(document.getElementById('selector-switcher'), testData)
+    new junkman.selector.Switcher(testData,{
+        limit:1,
+        hiddenInput:"switcher",
+        trigger:(data)=>{
+            console.log('choose option trigger this event:');
+            console.log(data);
+        },
+        parentNode:document.getElementById('selector-switcher')
+    })
         .selected(['1'])
-        .setOptions({
-            limit:1,
-            hiddenInput:"switcher",
-            trigger:(data)=>{
-                console.log('choose option trigger this event:');
-                console.log(data);
-            }
-        })
         .make();
 
     let modal = new junkman.Modal({
