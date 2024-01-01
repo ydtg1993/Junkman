@@ -49,7 +49,7 @@
     //new junkman.Tip().push("ssssss",5000);
     let testData = {"a":'1',"b":'2',"c":'3',"d":'4',"e":'5'};
 
-    new junkman.selector.Menu(testData,{
+    let m = new junkman.selector.Menu(testData,{
         placeholder:"test",
         menuMaxHeight:"100px",
         hiddenInput:"menu",
@@ -59,9 +59,8 @@
         },
         wrap:true,
         parentNode:document.getElementById('selector-menu')
-    })
-        .selected(['1'])
-        .make();
+    }).make();
+    m.selected(['1']);
 
     new junkman.selector.Switcher(testData,{
         limit:1,
@@ -72,7 +71,7 @@
         },
         parentNode:document.getElementById('selector-switcher')
     })
-        .selected(['1'])
+        .selected(['3'])
         .make();
 
     let modal = new junkman.Modal({

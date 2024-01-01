@@ -31,6 +31,7 @@ export class Menu extends Selector implements SelectorInterface {
             this.value_line_hash[select[name]] = line;
             line++;
             tree.push({
+                className:"jk-option",
                 attributes: {'data-name': name, 'data-value': select[name]},
                 nodes: `<div class="jk-text-trim">${name}</div>`,
                 events: {
@@ -149,7 +150,7 @@ export class Menu extends Selector implements SelectorInterface {
         }
     }
 
-    make() {
+    make():this {
         let domTree = {
             className: 'jk jk-selector-menu',
             events: {
@@ -212,26 +213,19 @@ export class Menu extends Selector implements SelectorInterface {
         createDOMFromTree(domTree,this.parentNode);
 
         let listDom = this.parentNode.querySelector('.jk-selector-menu-list');
-        if(!(listDom instanceof HTMLElement))return;
+        if(!(listDom instanceof HTMLElement))return this;
         if ([SELECTOR_DIRECTION.LeftMid,
             SELECTOR_DIRECTION.LeftUp,
             SELECTOR_DIRECTION.RightMid,
             SELECTOR_DIRECTION.RightUp].includes(this.direction)) {
             listDom.style.height = listDom.clientHeight + 'px';
         }
-
         (async ()=> {
-            let options = listDom.querySelectorAll('.jk-selector-menu-options>div');
-            options.forEach((D) => {
-                if(!(D instanceof HTMLElement))return;
-                let value = D.getAttribute('data-value') as string;
-                if (this.selectedData.indexOf(value) !== -1) {
-                    this.triggerEvent.enable = false;
-                    D.click();
-                    this.triggerEvent.enable = true;
-                }
-            });
+            if(this.selectedData.length>0){
+                this.selected(this.selectedData);
+            }
             if(!this.show) listDom.style.display = 'none';
         })();
+        return this;
     }
 }

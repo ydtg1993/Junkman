@@ -92,6 +92,24 @@ export class Selector implements SelectorInterface{
             return elem.toString();
         });
         this.selectedData = selected.filter(d => Object.keys(this.select).map(key => this.select[key]).includes(d));
+        (async ()=> {
+            let options = this.parentNode.querySelectorAll('.jk-option');
+            if(options.length>0) {
+                options.forEach((D) => {
+                    if (!(D instanceof HTMLElement)) return;
+                    let value = D.getAttribute('data-value') as string;
+                    if (this.selectedData.indexOf(value) !== -1) {
+                        this.triggerEvent.enable = false;
+                        D.click();
+                        this.triggerEvent.enable = true;
+                    }
+                });
+                let menu = this.parentNode.querySelector('.jk-selector-menu-list');
+                if (!this.show && (menu instanceof HTMLElement)) {
+                    menu.style.display = 'none';
+                }
+            }
+        })();
         return this;
     }
 
@@ -154,7 +172,7 @@ export class Selector implements SelectorInterface{
         }
     }
 
-    make(){
-
+    make():this{
+        return this;
     };
 }

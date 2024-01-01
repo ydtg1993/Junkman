@@ -3,7 +3,7 @@ import {SelectorInterface} from "./init";
 
 export class Sandbox extends Selector implements SelectorInterface {
 
-    make() {
+    make():this {
         let domTree = {
             className: 'jk jk-selector-sandbox',
             nodes: [
@@ -25,5 +25,6 @@ export class Sandbox extends Selector implements SelectorInterface {
                 }
             ]
         };
+        return this;
     }
 }

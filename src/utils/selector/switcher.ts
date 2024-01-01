@@ -13,7 +13,7 @@ export class Switcher extends Selector implements SelectorInterface {
             line++;
             tree.push({
                 attributes: {'data-name': name, 'data-value': select[name]},
-                className: 'jk-input jk-text-trim',
+                className: 'jk-input jk-text-trim jk-option',
                 textContent: name,
                 events: {
                     click: (e: Event, option: HTMLElement) => {
@@ -45,7 +45,7 @@ export class Switcher extends Selector implements SelectorInterface {
         return tree;
     }
 
-    make() {
+    make():this {
         let dir = '';
         if (this.towards === SELECTOR_TOWARDS.Vertical) dir = ' vertical';
         let domTree = {
@@ -54,17 +54,11 @@ export class Switcher extends Selector implements SelectorInterface {
         };
 
         createDOMFromTree(domTree,this.parentNode);
-        (async () => {
-            let options = this.parentNode.querySelectorAll('div');
-            options.forEach((D) => {
-                if (!(D instanceof HTMLElement)) return;
-                let value = D.getAttribute('data-value') as string;
-                if (this.selectedData.indexOf(value) !== -1) {
-                    this.triggerEvent.enable = false;
-                    D.click();
-                    this.triggerEvent.enable = true;
-                }
-            });
+        (async ()=> {
+            if(this.selectedData.length>0){
+                this.selected(this.selectedData);
+            }
         })();
+        return this;
     }
 }
