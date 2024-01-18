@@ -19,6 +19,7 @@ export class Selector implements SelectorInterface{
 
     protected placeholder: string = '-select-';
     protected maxHeight: string = '150px';
+    protected hiddenInput:string|null = null;
     protected direction: SELECTOR_DIRECTION = SELECTOR_DIRECTION.Down;
     protected show:boolean = false;
     protected wrap:boolean = false;
@@ -48,13 +49,7 @@ export class Selector implements SelectorInterface{
             this.triggerEvent = {func: options.trigger, enable: true};
         }
         if(typeof options.hiddenInput === "string"){
-            this.parentNode.insertAdjacentHTML('beforeend', `
-<input name="${options.hiddenInput}[select]" value="[]" type="hidden" />
-<input name="${options.hiddenInput}[insert]" value="[]" type="hidden" />
-<input name="${options.hiddenInput}[delete]" value="[]" type="hidden" />`);
-            this.SELECT_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[select]']`);
-            this.INSERT_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[insert]']`);
-            this.DELETE_INPUT_DOM = this.parentNode.querySelector(`input[name='${options.hiddenInput}[delete]']`);
+            this.hiddenInput = options.hiddenInput;
         }
         if(typeof options.placeholder === "string"){
             this.placeholder = options.placeholder;
@@ -169,6 +164,21 @@ export class Selector implements SelectorInterface{
                 select:this.selectData,
                 insert:this.insertData,
                 delete:this.deleteData});
+        }
+    }
+
+    protected delayExec(){
+        if(typeof this.hiddenInput === "string"){
+            this.parentNode.insertAdjacentHTML('beforeend', `
+<input name="${this.hiddenInput}[select]" value="[]" type="hidden" />
+<input name="${this.hiddenInput}[insert]" value="[]" type="hidden" />
+<input name="${this.hiddenInput}[delete]" value="[]" type="hidden" />`);
+            this.SELECT_INPUT_DOM = this.parentNode.querySelector(`input[name='${this.hiddenInput}[select]']`);
+            this.INSERT_INPUT_DOM = this.parentNode.querySelector(`input[name='${this.hiddenInput}[insert]']`);
+            this.DELETE_INPUT_DOM = this.parentNode.querySelector(`input[name='${this.hiddenInput}[delete]']`);
+        }
+        if(this.selectedData.length>0){
+            this.selected(this.selectedData);
         }
     }
 

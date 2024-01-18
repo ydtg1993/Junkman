@@ -55,9 +55,7 @@ export class Switcher extends Selector implements SelectorInterface {
 
         createDOMFromTree(domTree,this.parentNode);
         (async ()=> {
-            if(this.selectedData.length>0){
-                this.selected(this.selectedData);
-            }
+            this.delayExec();
         })();
         return this;
     }

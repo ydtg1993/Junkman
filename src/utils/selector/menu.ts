@@ -221,9 +221,7 @@ export class Menu extends Selector implements SelectorInterface {
             listDom.style.height = listDom.clientHeight + 'px';
         }
         (async ()=> {
-            if(this.selectedData.length>0){
-                this.selected(this.selectedData);
-            }
+            this.delayExec();
             if(!this.show) listDom.style.display = 'none';
         })();
         return this;
