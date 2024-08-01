@@ -93,6 +93,7 @@ export class Modal {
         } else {
             console.error('type of content error!');
         }
+
         return this;
     }
 
