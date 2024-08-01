@@ -88,16 +88,7 @@ export class Modal {
     }
 
     public setContent(content: any) {
-        if (typeof content === 'object' && content.hasOwnProperty('url')) {
-            this.xhr = content;
-            this.xhr = Object.assign({
-                method: 'GET',
-                url: '',
-                data: {},
-                callback: () => {
-                },
-            }, content);
-        } else if (typeof content === 'string' || (content instanceof HTMLElement)) {
+        if (typeof content === 'string' || (content instanceof HTMLElement)) {
             this.content = content;
         } else {
             console.error('type of content error!');
@@ -105,11 +96,16 @@ export class Modal {
         return this;
     }
 
+    public setLinkContent(response: string){
+        // @ts-ignore
+        this.DOM.querySelector('.jk-modal-body').appendChild(document.createRange().createContextualFragment(response));
+    }
+
     public close() {
         this.parentNode.removeChild(this.DOM);
     }
 
-    public getWindowNode() {
+    public getNode() {
         return this.DOM;
     }
 
