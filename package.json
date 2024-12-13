@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pierkadan/junkman.git"
+    "url": "git+https://github.com/ydtg1993/junkman.git"
   },
   "keywords": [
     "typescript"
@@ -20,7 +20,9 @@
   "license": "ISC",
   "homepage": "https://github.com/pierkadan/junkman.git",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "less": "^4.2.0",
     "rollup": "^2.79.1",
     "rollup-plugin-less": "^1.1.3",
