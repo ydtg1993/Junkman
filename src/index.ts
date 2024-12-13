@@ -8,7 +8,6 @@ import {Icon} from "./aid/icon";
 import {Tip} from './utils/tip/index';
 import {Menu} from './utils/selector/menu';
 import {SELECTOR_DIRECTION,SELECTOR_TOWARDS,SELECTOR_MODE} from './utils/selector/init'
-import {Sandbox} from "./utils/selector/sandbox";
 import {Switcher} from "./utils/selector/switcher";
 import {Modal} from "./utils/modal/index";
 
@@ -38,8 +37,6 @@ const selector = {
      * @function make   description: :build document
      */
     Menu: Menu,
-
-    Sandbox:Sandbox,
 
     Switcher:Switcher,
 };

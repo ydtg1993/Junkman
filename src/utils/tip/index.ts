@@ -1,27 +1,43 @@
 export class Tip {
     private dom_stash: HTMLElement[] = [];
+    private parent_node: HTMLElement|null = document.getElementsByTagName("BODY")[0];
+    private width:string|number = 320;
 
-    push(message: string, time: number = 1000, callback: (() => void) | null = null, parentNode: HTMLElement | null = null) {
+    constructor(options:{width?:string|number,parentNode?: HTMLElement})
+    {
+        if(typeof options == 'object') {
+            if (options.hasOwnProperty('parentNode')) {
+                this.parent_node = options.parentNode;
+            }
+            if (options.hasOwnProperty('width')) {
+                this.width = options.width;
+            }
+        }
+    }
+
+    push(message: string, time: number = 1000, callback: (() => void) | null = null) {
         let div = document.createElement('div');
-        div.insertAdjacentHTML('afterbegin', `<span class="jk-text-trim">${message}</span>`);
+        let widthStyle = this.width;
+        if(typeof this.width == 'number'){
+            widthStyle = this.width +'px';
+        }
+        div.insertAdjacentHTML('afterbegin', `<span class="jk-text-trim" style="width:${widthStyle}">${message}</span>`);
         let w, h;
         div.className = 'jk-tip';
         this.dom_stash.forEach((D) => {
             D.style.top = parseInt(D.style.top) - 60 + 'px';
         });
         this.dom_stash.push(div);
-        if (!parentNode) {
-            document.getElementsByTagName("BODY")[0].appendChild(div);
-        } else {
-            parentNode.append(div);
-        }
-        if (!parentNode) {
-            w = (window.innerWidth - 320) / 2;
+
+        this.parent_node.append(div);
+
+        if (!this.parent_node) {
+            w = (window.innerWidth - div.firstChild.clientWidth) / 2;
             h = window.innerHeight / 2 - 15;
             div.style.position = 'fixed';
         } else {
-            w = (parentNode.offsetWidth - 320) / 2;
-            h = parentNode.offsetHeight / 2 - 15;
+            w = (this.parent_node.offsetWidth - div.firstChild.clientWidth) / 2;
+            h = this.parent_node.offsetHeight / 2 - 15;
             div.style.position = 'absolute';
         }
         div.style.top = h + 'px';
